@@ -27,10 +27,10 @@ export function Hero() {
           className="max-w-3xl"
         >
           <MonoPill withDot className="mb-6">
-            <span className="text-foreground/90">Accepting 2 build slots — Q3</span>
+            <span className="text-foreground/90">Accepting 2 tokenization slots — Q3</span>
           </MonoPill>
 
-          <h1 className="text-display-2xl text-balance font-semibold text-foreground">
+          <h1 className="text-display-xl text-balance font-semibold text-foreground">
             {hero.headline}
           </h1>
 
@@ -54,8 +54,7 @@ export function Hero() {
             aria-hidden
             className="mt-8 font-mono text-xs text-muted-foreground/70"
           >
-            <span className="opacity-60">{"// "}</span>
-            based in dubai · shipping since {siteConfig.founder.shippingSince}
+            {hero.ambientLine}
           </div>
         </motion.div>
 
@@ -100,19 +99,19 @@ export function Hero() {
           <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed">
             <code>
               <span className="text-accent">$</span>{" "}
-              <span className="text-foreground">sajelabs scope --project new-build</span>
+              <span className="text-foreground">sajelabs scope --asset new-tokenization</span>
               {"\n"}
-              <span className="text-muted-foreground">→ chain:</span>{" "}
-              <span className="text-foreground">ethereum + arbitrum</span>
+              <span className="text-muted-foreground">→ standard:</span>{" "}
+              <span className="text-foreground">ERC-3643 + ONCHAINID</span>
               {"\n"}
               <span className="text-muted-foreground">→ contracts:</span>{" "}
-              <span className="text-foreground">ERC-20, ERC-4626, custom access control</span>
+              <span className="text-foreground">IdentityRegistry, ClaimTopics, Compliance, NAVStore</span>
               {"\n"}
-              <span className="text-muted-foreground">→ frontend:</span>{" "}
-              <span className="text-foreground">next.js 15, wagmi 2, rainbowkit</span>
+              <span className="text-muted-foreground">→ portal:</span>{" "}
+              <span className="text-foreground">role-gated · mint · KYC · NAV · documents</span>
               {"\n"}
-              <span className="text-muted-foreground">→ infra:</span>{" "}
-              <span className="text-foreground">vercel, postgres, foundry ci</span>
+              <span className="text-muted-foreground">→ network:</span>{" "}
+              <span className="text-foreground">base sepolia → ethereum mainnet</span>
               {"\n"}
               <span className="text-muted-foreground">→ timeline:</span>{" "}
               <span className="text-accent">8 weeks</span>

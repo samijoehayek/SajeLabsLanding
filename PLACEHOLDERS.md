@@ -6,11 +6,24 @@ Run `grep -rn "{{REPLACE" content/ app/ components/` before deploy — it should
 
 ---
 
-## 1. Case study — BTCBacked (real project, partial)
+## 1. Case study — SeedVault (real, anonymized)
 
-**File**: `content/site.ts` → `work.cases[0]`
+**File**: `content/site.ts` → `work.cases[0]` (`id: "seedvault"`)
 
-`status: "real"` — this is a real shipped project. Only the *metrics* are placeholders:
+`status: "real"` — this is a real shipped project, but the **client name is anonymized** pending public-attribution approval.
+
+- [ ] Confirm public attribution with the client (currently "Cape Town-based agricultural commodities fund manager"). On approval, swap `name`, `positioning`, and `problem` copy to use the real client name.
+- [ ] `explorerHref` is `null` — once the mainnet contract is public, set this to the Etherscan URL and `explorerLabel` to `"View on Etherscan"`.
+
+The terminal block, stack, outcome metrics, and approach copy are all real. No `{{REPLACE}}` markers in this card.
+
+---
+
+## 2. Case study — BTCBacked (real project, partial metrics)
+
+**File**: `content/site.ts` → `work.cases[1]` (`id: "btcbacked"`)
+
+`status: "real"` — real shipped project. Only the *metrics* are placeholders:
 
 - [ ] `outcome[0]`: `"{{REPLACE_WITH_REAL_METRIC}} in total value locked"` → replace with real TVL figure
 - [ ] `outcome[1]`: `"{{REPLACE_WITH_REAL_METRIC}} loans facilitated"` → replace with real loans count
@@ -21,53 +34,30 @@ Also review:
 
 ---
 
-## 2. Case study — Vellos (fully fictional placeholder)
-
-**File**: `content/site.ts` → `work.cases[1]` (`id: "vellos"`)
-
-`status: "placeholder"` — the entire card is invented. Shows an amber "PLACEHOLDER — replace before launch" banner in dev mode.
-
-Replace or remove all of these before launch:
-
-- [ ] `name` — currently `"Vellos"`
-- [ ] `positioning` — currently `"Permissioned yield vaults for regulated Web3 funds."`
-- [ ] `problem` — all copy starts with `{{REPLACE}}`
-- [ ] `approach` — all copy starts with `{{REPLACE}}`
-- [ ] `outcome[0..2]` — all three metrics marked `{{REPLACE}}`
-- [ ] `stack` — verify accuracy with real project
-- [ ] `terminal.command` and `terminal.lines` — regenerate for real project
-- [ ] `explorerHref` — currently `"#"`, replace with real Etherscan URL or set to `null`
-
-**JSX marker** in `components/sections/work.tsx`:
-```tsx
-{/* PLACEHOLDER CASE STUDY — REPLACE WITH REAL PROJECT BEFORE GOING LIVE */}
-{vellos && <CaseStudyCard data={vellos} index={1} />}
-```
-
-When replacing, remove the JSX comment and set `status: "real"` in `content/site.ts`.
-
----
-
-## 3. Case study — third slot (fully placeholder)
+## 3. Case study — third slot (placeholder, replace once second RWA client signs)
 
 **File**: `content/site.ts` → `work.cases[2]` (`id: "placeholder-3"`)
 
-`status: "placeholder"` — RWA / VARA angle, fully invented. Shows the same amber dev banner.
+`status: "placeholder"` — currently anonymized as "GCC real estate tokenization pilot — coming soon". Shows an amber "PLACEHOLDER — replace before launch" banner in `NODE_ENV === "development"`.
 
-- [ ] `name` — currently `"{{REPLACE}} — RWA pilot"`
-- [ ] `positioning` — marked `{{REPLACE}}`
-- [ ] `problem` — marked `{{REPLACE}}`
-- [ ] `approach` — marked `{{REPLACE}}`
+Replace or remove all of these once the second RWA client signs and gives attribution:
+
+- [ ] `name` — currently `"GCC real estate tokenization pilot — coming soon"`
+- [ ] `positioning` — generic placeholder copy
+- [ ] `problem` — starts with `{{REPLACE}}`
+- [ ] `approach` — starts with `{{REPLACE}}`
 - [ ] `outcome[0..2]` — all three marked `{{REPLACE}}`
-- [ ] `stack` — verify
-- [ ] `terminal.command` and `terminal.lines` — regenerate
-- [ ] `explorerHref` — currently `"#"`
+- [ ] `stack` — verify accuracy with real project
+- [ ] `terminal.command` and `terminal.lines` — regenerate for real project
+- [ ] `explorerHref` — currently `null`; set to a real Etherscan URL once mainnet
 
 **JSX marker** in `components/sections/work.tsx`:
 ```tsx
-{/* PLACEHOLDER CASE STUDY — REPLACE WITH REAL PROJECT BEFORE GOING LIVE */}
+{/* PLACEHOLDER — replace once second RWA client signs */}
 {third && <CaseStudyCard data={third} index={2} />}
 ```
+
+When replacing, remove the JSX comment and set `status: "real"` in `content/site.ts`.
 
 ---
 
@@ -83,7 +73,7 @@ When replacing, remove the JSX comment and set `status: "real"` in `content/site
 
 **File**: `config/site.ts` → `url: "https://sajelabs.com"` (and `.env.local.example` → `NEXT_PUBLIC_SITE_URL`)
 
-- [ ] Replace `sajelabs.com` once the real domain is purchased. The value appears in metadata, sitemap, robots.txt, footer, and OG image.
+- [ ] Replace `sajelabs.com` once the real domain is purchased. The value appears in metadata, sitemap, robots.txt, footer, OG image, and JSON-LD.
 
 ---
 
@@ -91,7 +81,7 @@ When replacing, remove the JSX comment and set `status: "real"` in `content/site
 
 **File**: `config/site.ts` → `founder.shippingSince: 2019`
 
-- [ ] Update to your real "shipping since" year. Appears in the hero detail line.
+- [ ] Update to your real "shipping since" year if needed. (No longer rendered in the hero, but still used in JSON-LD context.)
 
 ---
 
@@ -117,7 +107,7 @@ Run all of these before going live:
 grep -rn "{{REPLACE" content/ app/ components/   # expect zero matches
 
 # 2. No placeholder case studies left
-grep -rn "PLACEHOLDER CASE STUDY" components/    # expect zero matches
+grep -rn "PLACEHOLDER " components/              # expect zero matches in JSX
 grep -rn 'status: "placeholder"' content/        # expect zero matches
 
 # 3. Type-check + build

@@ -18,7 +18,7 @@ export function SiteFooter() {
             <span aria-hidden className="inline-block h-2 w-2 rounded-sm bg-accent" />
             {siteConfig.name}
           </Link>
-          <p className="text-sm text-muted-foreground">{siteConfig.tagline}</p>
+          <p className="text-sm text-muted-foreground">{footer.tagline}</p>
           <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
             <span
               aria-hidden
@@ -115,7 +115,7 @@ export function SiteFooter() {
             © {siteConfig.name} {year} · <span lang="ar">{footer.signoff}</span> · {siteConfig.url.replace(/^https?:\/\//, "")}
           </p>
           <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/70">
-            Built for GCC founders shipping real Web3.
+            Built for GCC asset owners shipping regulated digital infrastructure.
           </p>
         </div>
       </div>

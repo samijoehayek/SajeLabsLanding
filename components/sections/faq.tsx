@@ -13,7 +13,7 @@ export function FAQ() {
       <div className="grid gap-12 lg:grid-cols-[360px_1fr] lg:gap-16">
         <div>
           <SectionEyebrow>{faq.eyebrow}</SectionEyebrow>
-          <SectionTitle>Answers to what serious founders ask.</SectionTitle>
+          <SectionTitle>The questions asset owners ask before signing.</SectionTitle>
           <p className="mt-5 text-base text-muted-foreground text-pretty">
             If your question isn't here, just apply. We answer every thoughtful inbound.
           </p>

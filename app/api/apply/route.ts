@@ -45,10 +45,12 @@ export async function POST(req: NextRequest) {
     ["Email", data.email],
     ["WhatsApp", data.whatsapp],
     ["Company", data.company || "—"],
+    ["Asset type", data.assetType],
+    ["Asset value", data.assetValue],
+    ["Jurisdiction", data.jurisdiction],
     ["Stage", data.stage],
-    ["Chain", data.chain],
-    ["Budget", data.budget],
     ["Timeline", data.timeline],
+    ["Budget", data.budget],
     ["Description", data.description],
   ];
 

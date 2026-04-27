@@ -18,8 +18,10 @@ import {
 } from "@/components/ui/select";
 import {
   applySchema,
+  ASSET_TYPES,
+  ASSET_VALUES,
+  JURISDICTIONS,
   STAGES,
-  CHAINS,
   BUDGETS,
   TIMELINES,
   type ApplyInput,
@@ -90,7 +92,7 @@ export function Apply() {
           <dl className="mt-8 grid grid-cols-2 gap-4">
             <div className="rounded-lg border border-border bg-card/60 p-4">
               <dt className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Slot price
+                Starting at
               </dt>
               <dd className="mt-1 font-mono text-lg text-foreground">
                 ${siteConfig.offer.headlinePrice.toLocaleString()}
@@ -202,6 +204,81 @@ export function Apply() {
                   />
                 </Field>
 
+                <Field
+                  label="Asset type to tokenize"
+                  htmlFor="assetType"
+                  error={errors.assetType?.message}
+                >
+                  <Controller
+                    control={control}
+                    name="assetType"
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger id="assetType">
+                          <SelectValue placeholder="Select asset type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ASSET_TYPES.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </Field>
+
+                <Field
+                  label="Asset value range"
+                  htmlFor="assetValue"
+                  error={errors.assetValue?.message}
+                >
+                  <Controller
+                    control={control}
+                    name="assetValue"
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger id="assetValue">
+                          <SelectValue placeholder="Select asset value" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ASSET_VALUES.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </Field>
+
+                <Field
+                  label="Jurisdiction"
+                  htmlFor="jurisdiction"
+                  error={errors.jurisdiction?.message}
+                >
+                  <Controller
+                    control={control}
+                    name="jurisdiction"
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger id="jurisdiction">
+                          <SelectValue placeholder="Select jurisdiction" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {JURISDICTIONS.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </Field>
+
                 <Field label="Project stage" htmlFor="stage" error={errors.stage?.message}>
                   <Controller
                     control={control}
@@ -213,48 +290,6 @@ export function Apply() {
                         </SelectTrigger>
                         <SelectContent>
                           {STAGES.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-
-                <Field label="Chain preference" htmlFor="chain" error={errors.chain?.message}>
-                  <Controller
-                    control={control}
-                    name="chain"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="chain">
-                          <SelectValue placeholder="Select chain" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {CHAINS.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-
-                <Field label="Budget range" htmlFor="budget" error={errors.budget?.message}>
-                  <Controller
-                    control={control}
-                    name="budget"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="budget">
-                          <SelectValue placeholder="Select budget" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {BUDGETS.map((s) => (
                             <SelectItem key={s} value={s}>
                               {s}
                             </SelectItem>
@@ -286,6 +321,27 @@ export function Apply() {
                   />
                 </Field>
 
+                <Field label="Budget bracket" htmlFor="budget" error={errors.budget?.message}>
+                  <Controller
+                    control={control}
+                    name="budget"
+                    render={({ field }) => (
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <SelectTrigger id="budget">
+                          <SelectValue placeholder="Select budget" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {BUDGETS.map((s) => (
+                            <SelectItem key={s} value={s}>
+                              {s}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </Field>
+
                 <div className="sm:col-span-2">
                   <Field
                     label={`Brief project description (${descLen}/${MAX_DESC})`}
@@ -296,7 +352,7 @@ export function Apply() {
                       id="description"
                       rows={5}
                       maxLength={MAX_DESC}
-                      placeholder="What are you building, who's it for, and what's the outcome you care about?"
+                      placeholder="What's the asset, what jurisdiction is it sitting in, and what outcome do you care about?"
                       {...register("description")}
                     />
                   </Field>

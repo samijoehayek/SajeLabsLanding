@@ -114,7 +114,7 @@ export function SiteNav() {
             <li className="mt-4">
               <Button asChild size="lg" className="w-full">
                 <a href="#apply" onClick={() => setMobileOpen(false)}>
-                  Apply for a build slot
+                  Apply for a tokenization slot
                 </a>
               </Button>
             </li>

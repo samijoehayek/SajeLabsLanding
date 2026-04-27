@@ -65,7 +65,7 @@ export async function GET() {
           />
           <span>{siteConfig.name}</span>
           <span style={{ color: "#9aa0aa", marginLeft: 6, fontWeight: 400 }}>
-            / Web3 development studio
+            / RWA tokenization studio
           </span>
         </div>
 
@@ -80,14 +80,16 @@ export async function GET() {
         >
           <div
             style={{
-              fontSize: 72,
+              fontSize: 68,
               lineHeight: 1.05,
               fontWeight: 600,
               letterSpacing: "-0.035em",
-              maxWidth: 980,
+              maxWidth: 1000,
             }}
           >
-            Production-ready Web3 MVPs, shipped in 8 weeks.
+            Tokenize your real-world assets.
+            <br />
+            ERC-3643. Mainnet in 8 weeks.
           </div>
           <div
             style={{
@@ -98,11 +100,7 @@ export async function GET() {
               color: "#9aa0aa",
             }}
           >
-            <span>Ethereum</span>
-            <span style={{ color: "#2a2e36" }}>·</span>
-            <span>Bitcoin</span>
-            <span style={{ color: "#2a2e36" }}>·</span>
-            <span>RWA</span>
+            <span>$25B-reference RWA platform shipped</span>
             <span style={{ color: "#2a2e36" }}>·</span>
             <span>Dubai</span>
           </div>
@@ -129,7 +127,7 @@ export async function GET() {
                 borderRadius: 999,
               }}
             />
-            Accepting 2 build slots — Q3
+            From $60K · ERC-3643 · ONCHAINID
           </div>
           <div>{siteConfig.url.replace(/^https?:\/\//, "")}</div>
         </div>

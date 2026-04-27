@@ -17,7 +17,7 @@ export function trackLead(data: { email?: string; budget?: string }) {
 
   if (typeof window.fbq === "function") {
     window.fbq("track", "Lead", {
-      content_category: "Web3 MVP build",
+      content_category: "RWA tokenization",
       value: 0,
       currency: "USD",
       ...(data.budget ? { lead_budget: data.budget } : {}),

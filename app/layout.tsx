@@ -27,14 +27,18 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Web3 development studio",
-    "Dubai Web3",
-    "GCC Web3",
-    "VARA smart contracts",
-    "Bitcoin development",
-    "Ethereum development",
     "RWA tokenization",
-    "audit-ready smart contracts",
+    "ERC-3643",
+    "tokenize real estate Dubai",
+    "security token issuance",
+    "asset tokenization GCC",
+    "ONCHAINID",
+    "VARA tokenization",
+    "tokenized real-world assets",
+    "private credit tokenization",
+    "Ethereum security token",
+    "Bitcoin development",
+    "Dubai Web3",
     "Solidity engineer Dubai",
     "SajeLabs",
   ],
@@ -95,6 +99,43 @@ const organizationJsonLd = {
     addressCountry: "AE",
   },
   sameAs: [siteConfig.socials.twitter, siteConfig.socials.github],
+  makesOffer: [
+    {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: "RWA Tokenization" },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: "ERC-3643 Implementation" },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: "Smart Contract Development" },
+    },
+    {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: "Web3 Full-Stack Development" },
+    },
+  ],
+};
+
+const tokenizationServiceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "RWA Tokenization on Ethereum (ERC-3643)",
+  serviceType: "Real-world asset tokenization",
+  description:
+    "Production-grade ERC-3643 tokenization platforms for asset owners and family offices: smart contracts, KYC infrastructure, NAV oracle, document registry, and a role-gated admin portal. Testnet to mainnet in 8 weeks.",
+  provider: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
+  areaServed: ["AE", "SA", "QA", "BH", "OM", "KW", "CH", "SG"],
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "USD",
+    lowPrice: 60000,
+    highPrice: 150000,
+    priceRange: "$60,000-$150,000+",
+    offerCount: siteConfig.pricingTiers.length,
+  },
 };
 
 export default function RootLayout({
@@ -113,6 +154,11 @@ export default function RootLayout({
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(tokenizationServiceJsonLd) }}
         />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">

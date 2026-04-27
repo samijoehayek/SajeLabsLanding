@@ -1,6 +1,6 @@
 # SajeLabs — landing page
 
-A production-ready landing page for SajeLabs, a boutique Web3 development studio based in Dubai. Built with Next.js 15, React 19, TypeScript strict, Tailwind, shadcn-style primitives, wagmi v2, and RainbowKit v2.
+A production-ready landing page for SajeLabs, a boutique RWA tokenization studio based in Dubai. Lead offer is ERC-3643 production tokenization (from $60K, 8-week delivery), with general blockchain + full-stack Web3 development as a secondary capability so non-RWA inbound still converts. Built with Next.js 15, React 19, TypeScript strict, Tailwind, shadcn-style primitives, wagmi v2, and RainbowKit v2.
 
 **Stack**: Next.js 15 · React 19 · TypeScript strict · Tailwind CSS · Framer Motion · Radix UI · wagmi v2 / viem v2 · RainbowKit v2 · React Hook Form + Zod · Resend · `@vercel/og`
 
@@ -64,6 +64,26 @@ Set these in the Vercel dashboard → Project → Settings → Environment Varia
 3. Set `RESEND_API_KEY` and `APPLY_FROM` in your env (see table above). Until the domain is verified you can use `onboarding@resend.dev` as `APPLY_FROM` — deliverability is fine for testing only.
 4. All form submissions POST to `/api/apply`, which validates with Zod, sends to `APPLY_INBOX`, and fires a Meta CAPI "Lead" event (if configured).
 
+### Application form fields
+
+The form is RWA-qualified — the asset value + jurisdiction + budget triple acts as a pre-qualification filter so a $5M asset owner doesn't enter a $60K tokenization conversation by mistake.
+
+| Field | Type | Required |
+|---|---|---|
+| Full name | text | yes |
+| Email | email | yes |
+| WhatsApp (with country code) | tel | yes |
+| Company / project | text | optional |
+| **Asset type** | select — Real estate / Private credit / Commodities / Fund / Other / Not RWA — general blockchain dev | yes |
+| **Asset value range** | select — `<$5M` / `$5M-$50M` / `$50M-$500M` / `$500M+` / Not applicable | yes |
+| **Jurisdiction** | select — UAE / KSA / Qatar / Other GCC / Switzerland / Singapore / Other | yes |
+| Project stage | select — Concept / Legal structuring / Ready to build / Already engaged another firm | yes |
+| Timeline | select — ASAP / 1 month / 2-3 months / Flexible | yes |
+| Budget bracket | select — `$60K-$95K` / `$95K-$150K` / `$150K+` / Not RWA — different budget | yes |
+| Brief project description | textarea (500 char limit) | yes (min 20) |
+
+The schema (and dropdown enums) live in `lib/apply-schema.ts`. Update both that file and the matching select in `components/sections/apply.tsx` if you change the options.
+
 ## 5. Meta Pixel + CAPI setup
 
 1. Create a Pixel in Meta Events Manager, grab the Pixel ID.
@@ -98,25 +118,27 @@ Then render it in `components/sections/work.tsx` by adding another `<CaseStudyCa
 
 ## 7. Replacing placeholder case studies
 
-**Two case studies ship as placeholders**: `vellos` and `placeholder-3`. They must be replaced before going live.
+**One case study ships as a placeholder**: `placeholder-3` (the third RWA pilot slot). It must be replaced before going live.
 
-Every placeholder is marked in three ways:
+The two flagship cards — `seedvault` (anonymized, real) and `btcbacked` (real, partial metrics) — are real shipped projects. SeedVault's client name is anonymized pending public-attribution approval; `PLACEHOLDERS.md` tracks the punch list.
+
+The third placeholder is marked in three ways:
 
 1. `status: "placeholder"` on the case data in `content/site.ts`.
-2. A `{/* PLACEHOLDER CASE STUDY — REPLACE WITH REAL PROJECT BEFORE GOING LIVE */}` JSX comment above each render site in `components/sections/work.tsx`.
-3. A visible amber banner ("PLACEHOLDER — replace before launch") on each card when `NODE_ENV === "development"`.
+2. A `{/* PLACEHOLDER — replace once second RWA client signs */}` JSX comment above its render site in `components/sections/work.tsx`.
+3. A visible amber banner ("PLACEHOLDER — replace before launch") on the card when `NODE_ENV === "development"`.
 4. A "Case study" pill (vs. "Shipped") in the card header.
 
 To replace:
 
-1. Edit the case object in `content/site.ts` — set `status: "real"`, replace all `{{REPLACE}}` copy, fill real metrics, stack, terminal output.
-2. Set `explorerHref` to a real contract address or `null`.
+1. Edit `work.cases[2]` in `content/site.ts` — set `status: "real"`, replace all `{{REPLACE}}` copy, fill real metrics, stack, terminal output.
+2. Set `explorerHref` to a real contract address or leave `null`.
 3. Run `grep -rn "{{REPLACE" content/ app/ components/` to confirm nothing remains.
-4. See `PLACEHOLDERS.md` for the full punch list.
+4. See `PLACEHOLDERS.md` for the full punch list (including the SeedVault attribution swap).
 
 ## 8. Design system
 
-- Accent: **warm amber** (`hsl(32, 100%, 58%)` dark / `hsl(32, 95%, 52%)` light) — Bitcoin-adjacent, single accent color throughout.
+- Accent: **warm amber** (`hsl(32, 100%, 58%)` dark / `hsl(32, 95%, 52%)` light) — Bitcoin-adjacent, single accent color throughout. Works for the RWA repositioning too; institutional-leaning teal/electric-blue alternatives are an open option but not yet adopted.
 - Fonts: Geist Sans + Geist Mono via `next/font`.
 - All tokens live in `app/globals.css` (CSS vars) and `tailwind.config.ts` (Tailwind mappings). Never hardcode colors in components.
 - Dark mode is default; light mode works via `ThemeToggle`.
@@ -153,4 +175,4 @@ landing/
 
 ---
 
-Built for GCC founders shipping real Web3. صُنع في دبي.
+Built for GCC asset owners shipping regulated digital infrastructure. صُنع في دبي.

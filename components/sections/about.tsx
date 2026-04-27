@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Github, Mail, MapPin, MessageCircle, Twitter } from "lucide-react";
 import { Section, SectionEyebrow, SectionTitle } from "@/components/section";
 import { GithubActivity } from "@/components/github-activity";
@@ -11,13 +12,14 @@ export function About() {
         {/* Photo column */}
         <div>
           <div className="relative mx-auto h-48 w-48 overflow-hidden rounded-full border border-border bg-muted lg:mx-0 lg:h-64 lg:w-64">
-            {/* {{FOUNDER_PHOTO}} — replace with a real photo in /public/founder.jpg and swap this block */}
-            <div
-              aria-hidden
-              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent/15 via-background to-background font-mono text-[10px] uppercase tracking-widest text-muted-foreground"
-            >
-              {"{{FOUNDER_PHOTO}}"}
-            </div>
+            <Image
+              src="/founder/Main.jpg"
+              alt={siteConfig.founder.name}
+              width={256}
+              height={256}
+              className="h-full w-full object-cover"
+              priority
+            />
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-accent/10"
