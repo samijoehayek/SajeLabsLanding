@@ -19,6 +19,7 @@ export async function sendMetaLead(opts: {
 }) {
   const pixelId = process.env["NEXT_PUBLIC_META_PIXEL_ID"];
   const accessToken = process.env["META_CAPI_ACCESS_TOKEN"];
+  const testEventCode = process.env["META_CAPI_TEST_EVENT_CODE"];
   if (!pixelId || !accessToken) return { skipped: true as const };
 
   const endpoint = `https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`;
@@ -42,6 +43,9 @@ export async function sendMetaLead(opts: {
         },
       },
     ],
+    // When set, events route to Events Manager → Test Events tab instead of
+    // counting toward production. Unset / remove the env var when done testing.
+    ...(testEventCode ? { test_event_code: testEventCode } : {}),
   };
 
   try {
