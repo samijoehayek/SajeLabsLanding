@@ -33,6 +33,16 @@ import { cn } from "@/lib/utils";
 
 const MAX_DESC = 500;
 
+// Budget bracket → numeric Lead value sent to Meta (browser Pixel + server CAPI).
+// Drives ad-side ROAS reporting; not displayed anywhere on the page.
+const BUDGET_TO_VALUE: Record<string, number> = {
+  "$60K-$95K": 60000,
+  "$95K-$150K": 95000,
+  "$150K+": 150000,
+  "Not RWA — different budget": 30000,
+};
+const DEFAULT_LEAD_VALUE = 60000;
+
 export function Apply() {
   const [submitted, setSubmitted] = React.useState(false);
   const [serverError, setServerError] = React.useState<string | null>(null);
@@ -60,18 +70,33 @@ export function Apply() {
 
   const onSubmit = async (values: ApplyInput) => {
     setServerError(null);
+    // Same eventID + value travel to both the browser Pixel and the server CAPI
+    // call so Meta can deduplicate the two Lead events into a single conversion.
+    const eventID =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const leadValue = BUDGET_TO_VALUE[values.budget] ?? DEFAULT_LEAD_VALUE;
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, eventID, value: leadValue }),
       });
       if (!res.ok && res.status !== 202) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
         setServerError(body.error ?? "Something went wrong. Email us directly.");
         return;
       }
-      trackLead({ email: values.email, budget: values.budget });
+      trackLead({
+        email: values.email,
+        budget: values.budget,
+        value: leadValue,
+        currency: "USD",
+        contentCategory: "RWA tokenization",
+        contentName: values.assetType,
+        eventID,
+      });
       setSubmitted(true);
     } catch {
       setServerError("Network error. Please try again or email us directly.");

@@ -30,6 +30,15 @@ export async function POST(req: NextRequest) {
 
   const data = parsed.data;
 
+  // Meta dedup metadata travels alongside the validated form fields. The Zod
+  // schema strips unknown keys, so pull them off the raw body separately.
+  const meta = (json && typeof json === "object" ? json : {}) as {
+    eventID?: unknown;
+    value?: unknown;
+  };
+  const eventId = typeof meta.eventID === "string" ? meta.eventID : undefined;
+  const leadValue = typeof meta.value === "number" ? meta.value : undefined;
+
   // Honeypot tripped → pretend success to throw off bots
   if (data.website && data.website.length > 0) {
     return NextResponse.json({ ok: true }, { status: 200 });
@@ -108,6 +117,8 @@ export async function POST(req: NextRequest) {
     eventSourceUrl: `${siteConfig.url}/#apply`,
     clientIp: ip,
     userAgent: ua,
+    eventId,
+    value: leadValue,
   });
 
   if (!emailOk) {

@@ -16,6 +16,7 @@ export async function sendMetaLead(opts: {
   userAgent?: string;
   value?: number;
   currency?: string;
+  eventId?: string;
 }) {
   const pixelId = process.env["NEXT_PUBLIC_META_PIXEL_ID"];
   const accessToken = process.env["META_CAPI_ACCESS_TOKEN"];
@@ -29,6 +30,7 @@ export async function sendMetaLead(opts: {
       {
         event_name: "Lead",
         event_time: Math.floor(Date.now() / 1000),
+        ...(opts.eventId ? { event_id: opts.eventId } : {}),
         action_source: "website",
         event_source_url: opts.eventSourceUrl,
         user_data: {

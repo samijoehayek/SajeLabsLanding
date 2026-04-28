@@ -12,22 +12,37 @@ declare global {
   }
 }
 
-export function trackLead(data: { email?: string; budget?: string }) {
+export function trackLead(data: {
+  email?: string;
+  budget?: string;
+  value?: number;
+  currency?: string;
+  contentCategory?: string;
+  contentName?: string;
+  eventID?: string;
+}) {
   if (typeof window === "undefined") return;
 
   if (typeof window.fbq === "function") {
-    window.fbq("track", "Lead", {
-      content_category: "RWA tokenization",
-      value: 0,
-      currency: "USD",
+    const params = {
+      content_category: data.contentCategory ?? "RWA tokenization",
+      ...(data.contentName ? { content_name: data.contentName } : {}),
+      value: data.value ?? 0,
+      currency: data.currency ?? "USD",
       ...(data.budget ? { lead_budget: data.budget } : {}),
-    });
+    };
+    if (data.eventID) {
+      // 4th arg carries eventID for browser↔server CAPI deduplication
+      window.fbq("track", "Lead", params, { eventID: data.eventID });
+    } else {
+      window.fbq("track", "Lead", params);
+    }
   }
 
   if (typeof window.gtag === "function") {
     window.gtag("event", "generate_lead", {
-      value: 0,
-      currency: "USD",
+      value: data.value ?? 0,
+      currency: data.currency ?? "USD",
       ...(data.budget ? { budget: data.budget } : {}),
     });
   }
