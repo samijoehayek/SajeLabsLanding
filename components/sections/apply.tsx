@@ -70,18 +70,18 @@ export function Apply() {
 
   const onSubmit = async (values: ApplyInput) => {
     setServerError(null);
-    // Same eventID + value travel to both the browser Pixel and the server CAPI
-    // call so Meta can deduplicate the two Lead events into a single conversion.
-    const eventID =
-      typeof crypto !== "undefined" && "randomUUID" in crypto
-        ? crypto.randomUUID()
-        : `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    // Same eventId travels to both the browser Pixel (4th-arg event_options)
+    // and the server CAPI call (event_id) so Meta deduplicates the two Lead
+    // events into a single conversion.
+    const eventId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     const leadValue = BUDGET_TO_VALUE[values.budget] ?? DEFAULT_LEAD_VALUE;
+    // eslint-disable-next-line no-console
+    console.log("[apply form] eventId:", eventId, "value:", leadValue);
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, eventID, value: leadValue }),
+        body: JSON.stringify({ ...values, eventId, value: leadValue }),
       });
       if (!res.ok && res.status !== 202) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
@@ -95,7 +95,7 @@ export function Apply() {
         currency: "USD",
         contentCategory: "RWA tokenization",
         contentName: values.assetType,
-        eventID,
+        eventID: eventId,
       });
       setSubmitted(true);
     } catch {

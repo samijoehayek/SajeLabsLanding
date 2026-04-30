@@ -33,11 +33,13 @@ export async function POST(req: NextRequest) {
   // Meta dedup metadata travels alongside the validated form fields. The Zod
   // schema strips unknown keys, so pull them off the raw body separately.
   const meta = (json && typeof json === "object" ? json : {}) as {
-    eventID?: unknown;
+    eventId?: unknown;
     value?: unknown;
   };
-  const eventId = typeof meta.eventID === "string" ? meta.eventID : undefined;
+  const eventId = typeof meta.eventId === "string" ? meta.eventId : undefined;
   const leadValue = typeof meta.value === "number" ? meta.value : undefined;
+  // eslint-disable-next-line no-console
+  console.log("[apply route] eventId:", eventId, "value:", leadValue);
 
   // Honeypot tripped → pretend success to throw off bots
   if (data.website && data.website.length > 0) {
