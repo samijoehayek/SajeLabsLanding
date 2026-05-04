@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { applySchema } from "@/lib/apply-schema";
 import { sendMetaEvent } from "@/lib/meta-capi";
+import { appendLead } from "@/lib/notion";
 import { siteConfig } from "@/config/site";
 
 export const runtime = "nodejs";
@@ -44,6 +45,29 @@ export async function POST(req: NextRequest) {
   // Honeypot tripped → pretend success to throw off bots
   if (data.website && data.website.length > 0) {
     return NextResponse.json({ ok: true }, { status: 200 });
+  }
+
+  // Durable store first — write the lead to Notion before anything else, so
+  // it survives even if Resend is suspended or the email send fails. Best
+  // effort: failures are logged but do not block the rest of the flow.
+  const notionResult = await appendLead({
+    name: data.name,
+    email: data.email,
+    whatsapp: data.whatsapp,
+    company: data.company,
+    assetType: data.assetType,
+    assetValue: data.assetValue,
+    jurisdiction: data.jurisdiction,
+    stage: data.stage,
+    timeline: data.timeline,
+    budget: data.budget,
+    description: data.description,
+  });
+  if (!notionResult.skipped && !notionResult.ok) {
+    // eslint-disable-next-line no-console
+    console.error(
+      "[apply] Notion append failed — falling through to Resend only",
+    );
   }
 
   // Resend email
