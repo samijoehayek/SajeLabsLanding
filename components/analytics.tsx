@@ -23,7 +23,17 @@ export function Analytics() {
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
               fbq('init', '${pixelId}');
-              fbq('track', 'PageView');
+              // One eventID per page load — used by both the browser PageView
+              // and the server CAPI mirror so Meta can deduplicate the pair.
+              var __sjlPvId = 'pv_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+              try { console.log('[meta pixel] PageView eventId:', __sjlPvId); } catch (e) {}
+              fbq('track', 'PageView', {}, { eventID: __sjlPvId });
+              fetch('/api/pageview', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ eventId: __sjlPvId }),
+                keepalive: true
+              }).catch(function () {});
             `}
           </Script>
           <noscript>

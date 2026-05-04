@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { applySchema } from "@/lib/apply-schema";
-import { sendMetaLead } from "@/lib/meta-capi";
+import { sendMetaEvent } from "@/lib/meta-capi";
 import { siteConfig } from "@/config/site";
 
 export const runtime = "nodejs";
@@ -112,8 +112,12 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-real-ip") ??
     undefined;
   const ua = req.headers.get("user-agent") ?? undefined;
+  // First-party Pixel cookies are same-origin so they ride along on the POST.
+  const fbp = req.cookies.get("_fbp")?.value;
+  const fbc = req.cookies.get("_fbc")?.value;
 
-  await sendMetaLead({
+  await sendMetaEvent({
+    eventName: "Lead",
     email: data.email,
     phone: data.whatsapp,
     eventSourceUrl: `${siteConfig.url}/#apply`,
@@ -121,6 +125,8 @@ export async function POST(req: NextRequest) {
     userAgent: ua,
     eventId,
     value: leadValue,
+    fbp,
+    fbc,
   });
 
   if (!emailOk) {
