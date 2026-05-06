@@ -17,15 +17,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  applySchema,
+  applyFormSchema,
   ASSET_TYPES,
-  ASSET_VALUES,
-  JURISDICTIONS,
   STAGES,
   BUDGETS,
   TIMELINES,
-  type ApplyInput,
+  type ApplyFormInput,
 } from "@/lib/apply-schema";
+import { COUNTRY_CODES, DEFAULT_COUNTRY_CODE } from "@/lib/country-codes";
 import { trackLead } from "@/lib/analytics";
 import { apply } from "@/content/site";
 import { siteConfig } from "@/config/site";
@@ -53,12 +52,13 @@ export function Apply() {
     control,
     watch,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<ApplyInput>({
-    resolver: zodResolver(applySchema),
+  } = useForm<ApplyFormInput>({
+    resolver: zodResolver(applyFormSchema),
     mode: "onBlur",
     defaultValues: {
       name: "",
       email: "",
+      countryCode: DEFAULT_COUNTRY_CODE,
       whatsapp: "",
       company: "",
       description: "",
@@ -68,20 +68,28 @@ export function Apply() {
 
   const descLen = watch("description")?.length ?? 0;
 
-  const onSubmit = async (values: ApplyInput) => {
+  const onSubmit = async (values: ApplyFormInput) => {
     setServerError(null);
     // Same eventId travels to both the browser Pixel (4th-arg event_options)
     // and the server CAPI call (event_id) so Meta deduplicates the two Lead
     // events into a single conversion.
     const eventId = `lead_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     const leadValue = BUDGET_TO_VALUE[values.budget] ?? DEFAULT_LEAD_VALUE;
+    // Combine country code + local number into the international format the
+    // server (and Notion / CAPI / WhatsApp click-to-chat) expects.
+    const fullWhatsapp = `${values.countryCode} ${values.whatsapp}`.trim();
     // eslint-disable-next-line no-console
     console.log("[apply form] eventId:", eventId, "value:", leadValue);
     try {
       const res = await fetch("/api/apply", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, eventId, value: leadValue }),
+        body: JSON.stringify({
+          ...values,
+          whatsapp: fullWhatsapp,
+          eventId,
+          value: leadValue,
+        }),
       });
       if (!res.ok && res.status !== 202) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
@@ -210,15 +218,67 @@ export function Apply() {
                     {...register("email")}
                   />
                 </Field>
-                <Field label="WhatsApp (with country code)" htmlFor="whatsapp" error={errors.whatsapp?.message}>
-                  <Input
-                    id="whatsapp"
-                    type="tel"
-                    inputMode="tel"
-                    autoComplete="tel"
-                    placeholder="+971 …"
-                    {...register("whatsapp")}
-                  />
+                <Field
+                  label="WhatsApp"
+                  htmlFor="whatsapp"
+                  error={errors.countryCode?.message ?? errors.whatsapp?.message}
+                >
+                  {/* Composite control: a country-code Select glued to the
+                      number Input so they read as one widget. The Select's
+                      trigger gets right-side-flush styling; the Input gets
+                      left-side-flush styling. */}
+                  <div className="flex items-stretch focus-within:[&>*]:ring-1 focus-within:[&>*]:ring-ring">
+                    <Controller
+                      control={control}
+                      name="countryCode"
+                      render={({ field }) => (
+                        <Select value={field.value} onValueChange={field.onChange}>
+                          <SelectTrigger
+                            id="countryCode"
+                            aria-label="Country code"
+                            className="w-[7.5rem] shrink-0 rounded-r-none border-r-0 font-mono text-sm"
+                          >
+                            <SelectValue>
+                              {(() => {
+                                const c = COUNTRY_CODES.find(
+                                  (x) => x.code === field.value,
+                                );
+                                if (!c) return field.value;
+                                return (
+                                  <span className="inline-flex items-center gap-1.5">
+                                    <span aria-hidden>{c.flag}</span>
+                                    <span>{c.code}</span>
+                                  </span>
+                                );
+                              })()}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent className="max-h-72">
+                            {COUNTRY_CODES.map((c) => (
+                              <SelectItem key={c.code} value={c.code}>
+                                <span className="inline-flex items-center gap-2">
+                                  <span aria-hidden>{c.flag}</span>
+                                  <span className="font-mono text-xs text-muted-foreground">
+                                    {c.code}
+                                  </span>
+                                  <span className="text-sm">{c.country}</span>
+                                </span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                    <Input
+                      id="whatsapp"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel-national"
+                      placeholder="50 123 4567"
+                      className="rounded-l-none"
+                      {...register("whatsapp")}
+                    />
+                  </div>
                 </Field>
                 <Field label="Company / project" htmlFor="company" error={errors.company?.message}>
                   <Input
@@ -244,56 +304,6 @@ export function Apply() {
                         </SelectTrigger>
                         <SelectContent>
                           {ASSET_TYPES.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-
-                <Field
-                  label="Asset value range"
-                  htmlFor="assetValue"
-                  error={errors.assetValue?.message}
-                >
-                  <Controller
-                    control={control}
-                    name="assetValue"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="assetValue">
-                          <SelectValue placeholder="Select asset value" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ASSET_VALUES.map((s) => (
-                            <SelectItem key={s} value={s}>
-                              {s}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </Field>
-
-                <Field
-                  label="Jurisdiction"
-                  htmlFor="jurisdiction"
-                  error={errors.jurisdiction?.message}
-                >
-                  <Controller
-                    control={control}
-                    name="jurisdiction"
-                    render={({ field }) => (
-                      <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger id="jurisdiction">
-                          <SelectValue placeholder="Select jurisdiction" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {JURISDICTIONS.map((s) => (
                             <SelectItem key={s} value={s}>
                               {s}
                             </SelectItem>

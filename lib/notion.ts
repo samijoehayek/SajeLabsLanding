@@ -9,13 +9,15 @@
  *   WhatsApp       Phone number
  *   Company        Text (rich_text)
  *   Asset Type     Text
- *   Asset Value    Text          (form sends range strings, not numbers)
- *   Jurisdiction   Text
  *   Stage          Status        (auto-set to "New"; user moves through workflow)
  *   Project Stage  Text          (the applicant's stated project stage)
  *   Timeline       Text
  *   Budget         Text          (form sends range strings)
  *   Description    Text
+ *
+ * Asset Value and Jurisdiction columns may still exist on the Notion side from
+ * earlier versions of the form — they're not written anymore and will be empty
+ * for all new leads. Safe to delete in Notion's UI if no longer wanted.
  */
 
 const NOTION_API_VERSION = "2022-06-28";
@@ -26,8 +28,6 @@ type LeadFields = {
   whatsapp: string;
   company?: string;
   assetType: string;
-  assetValue: string;
-  jurisdiction: string;
   stage: string; // applicant's project stage — written to "Project Stage", not the CRM "Stage"
   timeline: string;
   budget: string;
@@ -47,8 +47,6 @@ export async function appendLead(data: LeadFields) {
     WhatsApp: { phone_number: data.whatsapp },
     Company: text(data.company || ""),
     "Asset Type": text(data.assetType),
-    "Asset Value": text(data.assetValue),
-    Jurisdiction: text(data.jurisdiction),
     Stage: { status: { name: "New" } },
     "Project Stage": text(data.stage),
     Timeline: text(data.timeline),

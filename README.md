@@ -2,7 +2,7 @@
 
 A production-ready landing page for SajeLabs, a boutique RWA tokenization studio based in Dubai. Lead offer is ERC-3643 production tokenization (from $60K, 8-week delivery), with general blockchain + full-stack Web3 development as a secondary capability so non-RWA inbound still converts. Built with Next.js 15, React 19, TypeScript strict, Tailwind, shadcn-style primitives, wagmi v2, and RainbowKit v2.
 
-**Stack**: Next.js 15 · React 19 · TypeScript strict · Tailwind CSS · Framer Motion · Radix UI · wagmi v2 / viem v2 · RainbowKit v2 · React Hook Form + Zod · Resend · `@vercel/og`
+**Stack**: Next.js 15 · React 19 · TypeScript strict · Tailwind CSS · Framer Motion · Radix UI · wagmi v2 / viem v2 · RainbowKit v2 · React Hook Form + Zod · Notion API · `@vercel/og`
 
 ## 1. Run locally
 
@@ -24,7 +24,7 @@ pnpm type-check    # tsc --noEmit
 pnpm lint          # eslint
 ```
 
-Nothing in `.env.local.example` is required for the site to run — all integrations (Resend, Meta Pixel, GA4, WalletConnect) degrade gracefully when their variables are missing.
+Nothing in `.env.local.example` is required for the site to run — all integrations (Notion, Meta Pixel, GA4, WalletConnect) degrade gracefully when their variables are missing.
 
 ## 2. Edit copy without touching React
 
@@ -48,41 +48,64 @@ Set these in the Vercel dashboard → Project → Settings → Environment Varia
 | Variable | Required | Purpose |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | production | canonical URL, sitemap, OG |
-| `RESEND_API_KEY` | optional | transactional email for form submissions |
-| `APPLY_INBOX` | optional | inbox that receives new leads (defaults to `samijoehayek1@gmail.com`) |
-| `APPLY_FROM` | optional | "From" address on the lead email (Resend-verified domain) |
+| `NOTION_API_KEY` | strongly recommended | durable lead store — without it submissions return 202 and aren't persisted anywhere |
+| `NOTION_LEADS_DATABASE_ID` | strongly recommended | Notion database that receives leads |
 | `NEXT_PUBLIC_META_PIXEL_ID` | optional | Meta Pixel (client) |
 | `META_CAPI_ACCESS_TOKEN` | optional | Meta Conversions API (server) |
 | `NEXT_PUBLIC_GA4_ID` | optional | Google Analytics 4 |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | optional | WalletConnect project — <https://cloud.reown.com> |
 | `NEXT_PUBLIC_ETH_RPC` / `NEXT_PUBLIC_ARB_RPC` / `NEXT_PUBLIC_BASE_RPC` | optional | custom RPC endpoints |
 
-## 4. Resend setup (application form)
+## 4. Notion setup (durable lead store)
 
-1. Create an account at <https://resend.com>, generate an API key.
-2. Add and verify your sending domain (`sajelabs.com` once purchased).
-3. Set `RESEND_API_KEY` and `APPLY_FROM` in your env (see table above). Until the domain is verified you can use `onboarding@resend.dev` as `APPLY_FROM` — deliverability is fine for testing only.
-4. All form submissions POST to `/api/apply`, which validates with Zod, sends to `APPLY_INBOX`, and fires a Meta CAPI "Lead" event (if configured).
+The application form's only persistence layer is a Notion database. Resend was removed — Notion both stores the lead and acts as the lightweight CRM (Stage status column lets you move leads through `New / In review / Closed`).
+
+1. **Create the database** in Notion. Required column names + types (case-sensitive — the API rejects mismatches):
+
+   | Column | Notion type |
+   |---|---|
+   | `Name` | Title |
+   | `Email` | Email |
+   | `WhatsApp` | Phone number |
+   | `Company` | Text |
+   | `Asset Type` | Text |
+   | `Stage` | Status (must include a `New` option; the API auto-sets every new lead to `New`) |
+   | `Project Stage` | Text (the applicant's stated stage — separate from the CRM `Stage`) |
+   | `Timeline` | Text |
+   | `Budget` | Text |
+   | `Description` | Text |
+
+2. **Create an integration** at <https://www.notion.so/my-integrations> → New integration → name it (e.g. "SajeLabs Leads") → submit. Copy the **Internal Integration Secret**.
+
+3. **Connect the integration to the database** — open the database → top-right `···` → **Connections** → add the integration. Without this step the API returns `object_not_found`.
+
+4. **Get the database ID** — the 32-char hex string between `/<workspace>/` and `?v=` in the database URL.
+
+5. **Set Vercel env vars**:
+   - `NOTION_API_KEY` = the integration secret
+   - `NOTION_LEADS_DATABASE_ID` = the database ID
+
+6. **Set up notifications** — Notion → database → top-right `···` → **Notifications** → "Notify me when a row is added". This replaces the email channel that Resend used to provide.
+
+If both env vars are missing, the form returns a 202 with a "WhatsApp us directly" message. If they're set but the API call fails, the lead is lost — Vercel function logs will show `[notion] append failed: <status>`.
 
 ### Application form fields
 
-The form is RWA-qualified — the asset value + jurisdiction + budget triple acts as a pre-qualification filter so a $5M asset owner doesn't enter a $60K tokenization conversation by mistake.
+The form is RWA-qualified — the budget bracket acts as the pre-qualification filter so a $5M asset owner doesn't enter a $60K tokenization conversation by mistake.
 
 | Field | Type | Required |
 |---|---|---|
 | Full name | text | yes |
 | Email | email | yes |
-| WhatsApp (with country code) | tel | yes |
+| WhatsApp | composite — country-code Select (default `+971`, list in `lib/country-codes.ts`) glued to a digits-and-spaces input. The two are combined into `+971 50 123 4567` format before POSTing. | yes |
 | Company / project | text | optional |
 | **Asset type** | select — Real estate / Private credit / Commodities / Fund / Other / Not RWA — general blockchain dev | yes |
-| **Asset value range** | select — `<$5M` / `$5M-$50M` / `$50M-$500M` / `$500M+` / Not applicable | yes |
-| **Jurisdiction** | select — UAE / KSA / Qatar / Other GCC / Switzerland / Singapore / Other | yes |
 | Project stage | select — Concept / Legal structuring / Ready to build / Already engaged another firm | yes |
 | Timeline | select — ASAP / 1 month / 2-3 months / Flexible | yes |
 | Budget bracket | select — `$60K-$95K` / `$95K-$150K` / `$150K+` / Not RWA — different budget | yes |
 | Brief project description | textarea (500 char limit) | yes (min 20) |
 
-The schema (and dropdown enums) live in `lib/apply-schema.ts`. Update both that file and the matching select in `components/sections/apply.tsx` if you change the options.
+The form-side schema (`applyFormSchema`) and the API-side schema (`applySchema`) both live in `lib/apply-schema.ts`. The form validates `countryCode` + a digits-only WhatsApp; the API validates the combined international string. Update enums in lockstep with `components/sections/apply.tsx` and `lib/country-codes.ts` if you change the options.
 
 ## 5. Meta Pixel + CAPI setup
 
@@ -149,7 +172,7 @@ To replace:
 landing/
 ├── app/
 │   ├── api/
-│   │   ├── apply/route.ts        ← form handler (Resend + Meta CAPI)
+│   │   ├── apply/route.ts        ← form handler (Notion + Meta CAPI)
 │   │   └── og/route.tsx          ← OG image (@vercel/og)
 │   ├── layout.tsx                ← metadata, JSON-LD, font wiring
 │   ├── page.tsx                  ← home: composes all sections
