@@ -11,7 +11,7 @@ export const hero = {
 
   subheadline:
     "I build web apps, full-stack platforms, blockchain systems, and RWA tokenization — directly with founders and businesses. 7 years shipping production software at top MENA tech companies including STC. One developer, one budget, no surprises.",
-  primaryCta: { label: "Book a free 20-min call", href: "/apply#book" },
+  primaryCta: { label: "Book a free 20-min call", href: "/apply#apply" },
   secondaryCta: { label: "See the work", href: "#work" },
   ambientLine: "// typescript · next.js · solidity · aws · postgres",
 } as const;
@@ -131,7 +131,7 @@ export const work = {
           "✓ admin portal handed over",
         ],
       },
-      link: { label: "View case", href: "/apply#book" },
+      link: { label: "View case", href: "/apply#apply" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },
@@ -166,7 +166,7 @@ export const work = {
           "✓ real BTC — no wrapping",
         ],
       },
-      link: { label: "View case", href: "/apply#book" },
+      link: { label: "View case", href: "/apply#apply" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },
@@ -200,7 +200,7 @@ export const work = {
           "→ replace with real output",
         ],
       },
-      link: { label: "View case", href: "/apply#book" },
+      link: { label: "View case", href: "/apply#apply" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },

@@ -35,7 +35,7 @@ export function ApplyNav() {
         aria-label="Primary"
       >
         <Link
-          href="/apply"
+          href="/"
           className="group inline-flex items-center gap-2 font-mono text-sm font-semibold tracking-tight text-foreground"
           aria-label={`${siteConfig.name} home`}
         >

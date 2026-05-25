@@ -122,24 +122,8 @@ export function Apply() {
           </h2>
           <p className="mt-5 text-base text-muted-foreground text-pretty">{apply.body}</p>
 
-          <dl className="mt-8 grid grid-cols-2 gap-4">
+          <dl className="mt-8">
             <div className="rounded-lg border border-border bg-card/60 p-4">
-              <dt className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Typical range
-              </dt>
-              <dd className="mt-1 font-mono text-lg text-foreground">
-                {siteConfig.offer.typicalRange}
-              </dd>
-            </div>
-            <div className="rounded-lg border border-border bg-card/60 p-4">
-              <dt className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Delivery
-              </dt>
-              <dd className="mt-1 font-mono text-lg text-foreground">
-                {siteConfig.offer.duration}
-              </dd>
-            </div>
-            <div className="col-span-2 rounded-lg border border-border bg-card/60 p-4">
               <dt className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 Reply time
               </dt>

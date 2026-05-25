@@ -74,7 +74,7 @@ export function SiteNav() {
               <WalletButton compact />
             </div>
             <Button asChild size="sm" className="hidden sm:inline-flex">
-              <a href="/apply#book">Book a call</a>
+              <a href="/apply#apply">Book a call</a>
             </Button>
             <button
               type="button"
@@ -113,7 +113,7 @@ export function SiteNav() {
             </li>
             <li className="mt-4">
               <Button asChild size="lg" className="w-full">
-                <a href="/apply#book" onClick={() => setMobileOpen(false)}>
+                <a href="/apply#apply" onClick={() => setMobileOpen(false)}>
                   Book a free call
                 </a>
               </Button>

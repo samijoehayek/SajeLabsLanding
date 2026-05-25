@@ -17,13 +17,14 @@ import { Button } from "@/components/ui/button";
 import { MonoPill } from "@/components/mono-pill";
 import { GridBackground, AccentGlow } from "@/components/grid-background";
 import { ApplyNav } from "@/components/apply/apply-nav";
-import { CalendlyEmbed } from "@/components/apply/calendly-embed";
-import { siteConfig, mailto } from "@/config/site";
+import { Apply } from "@/components/sections/apply";
+import { siteConfig } from "@/config/site";
 
 // /apply — paid-ad conversion landing. Single-page, long-scroll. No site nav,
 // minimal footer, separate metadata (see app/apply/layout.tsx). The Meta Pixel
-// PageView fires from <Analytics> in the root layout; the Lead event fires
-// inside <CalendlyEmbed> when Calendly emits `event_scheduled`.
+// PageView fires from <Analytics> in the root layout; the Lead event (browser
+// Pixel + server CAPI deduplicated via shared eventID) fires from the <Apply />
+// form section at the bottom of the page, same pipeline as the homepage.
 
 const walkAway = [
   {
@@ -127,8 +128,8 @@ export default function ApplyPage() {
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Button asChild size="lg">
-                <a href="#book">
-                  Book Your Free Call
+                <a href="#apply">
+                  Get Your Free Call
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
@@ -256,8 +257,8 @@ export default function ApplyPage() {
 
           <div className="mt-10 text-center">
             <Button asChild size="lg">
-              <a href="#book">
-                Book Your Free Call
+              <a href="#apply">
+                Get Your Free Call
                 <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
@@ -315,48 +316,16 @@ export default function ApplyPage() {
         </div>
       </section>
 
-      {/* ---------- Calendly booking ---------- */}
-      <section
-        id="book"
-        className="scroll-mt-24 border-t border-border py-20 md:py-24"
-      >
-        <div className="container">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              Book the call
-            </p>
-            <h2 className="mt-4 text-display-md text-balance text-foreground">
-              Pick a time that works.
-            </h2>
-            <p className="mt-5 text-base text-muted-foreground text-pretty">
-              The call is 20 minutes, free, and you&apos;ll walk away with the
-              four things listed above.
-            </p>
-          </div>
-
-          {/*
-            Replace `siteConfig.contact.calendlyUrl` in `config/site.ts` with
-            your real Calendly URL. The embed listens for Calendly's
-            `event_scheduled` postMessage and fires the Meta Lead event on
-            booking. UTM parameters from the ad URL are passed through as
-            prefill so the booking shows up tagged in your Calendly dashboard.
-          */}
-          <div className="mx-auto mt-12 max-w-4xl">
-            <CalendlyEmbed url={siteConfig.contact.calendlyUrl} />
-          </div>
-
-          <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-muted-foreground">
-            Prefer email? Send a few details to{" "}
-            <a
-              href={mailto("Project inquiry — Samijoe")}
-              className="font-medium text-foreground underline decoration-accent/40 underline-offset-4 hover:decoration-accent"
-            >
-              {siteConfig.contact.email}
-            </a>{" "}
-            and I&apos;ll respond within 24 hours.
-          </p>
-        </div>
-      </section>
+      {/* ---------- Apply form ----------
+        Uses the same <Apply /> section component as the homepage. This keeps
+        the full pixel pipeline intact on /apply:
+          - form generates a single eventID
+          - browser Pixel Lead fires with value + budget + content_category
+          - server CAPI Lead fires with hashed email/phone (deduped via eventID)
+          - lead is written to Notion
+        Anchor id="apply" is set by the Section wrapper inside <Apply />.
+      */}
+      <Apply />
 
       {/* ---------- Minimal footer ---------- */}
       <footer className="border-t border-border py-10">

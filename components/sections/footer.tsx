@@ -42,7 +42,7 @@ export function SiteFooter() {
                 </li>
               ))}
               <li>
-                <a href="/apply#book" className="text-foreground/80 transition-colors hover:text-foreground">
+                <a href="/apply#apply" className="text-foreground/80 transition-colors hover:text-foreground">
                   Book a call
                 </a>
               </li>

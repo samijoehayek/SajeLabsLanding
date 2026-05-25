@@ -64,7 +64,9 @@ export const siteConfig = {
     email: "samijoehayek1@gmail.com",
     whatsappDigits: "96170746299",
     whatsappDisplay: "+961 70 746 299",
-    // Used by /apply Calendly embed.
+    // Reserved — Calendly was replaced by the form on /apply (better Pixel
+    // signal: server CAPI dedup, hashed email/phone, Notion storage). Keep
+    // this value if you want to re-enable a Calendly embed later.
     calendlyUrl: "https://calendly.com/samijoehayek1/rwa-tokenization-platform",
   },
 
