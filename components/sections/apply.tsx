@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import {
   applyFormSchema,
-  ASSET_TYPES,
+  PROJECT_TYPES,
   STAGES,
   BUDGETS,
   TIMELINES,
@@ -35,12 +35,12 @@ const MAX_DESC = 500;
 // Budget bracket → numeric Lead value sent to Meta (browser Pixel + server CAPI).
 // Drives ad-side ROAS reporting; not displayed anywhere on the page.
 const BUDGET_TO_VALUE: Record<string, number> = {
-  "$60K-$95K": 60000,
-  "$95K-$150K": 95000,
-  "$150K+": 150000,
-  "Not RWA — different budget": 30000,
+  "$15K–$30K": 22500,
+  "$30K–$60K": 45000,
+  "$60K+": 75000,
+  "Not sure yet": 30000,
 };
-const DEFAULT_LEAD_VALUE = 60000;
+const DEFAULT_LEAD_VALUE = 30000;
 
 export function Apply() {
   const [submitted, setSubmitted] = React.useState(false);
@@ -101,7 +101,7 @@ export function Apply() {
         budget: values.budget,
         value: leadValue,
         currency: "USD",
-        contentCategory: "RWA tokenization",
+        contentCategory: "Software project",
         contentName: values.assetType,
         eventID: eventId,
       });
@@ -125,10 +125,10 @@ export function Apply() {
           <dl className="mt-8 grid grid-cols-2 gap-4">
             <div className="rounded-lg border border-border bg-card/60 p-4">
               <dt className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Starting at
+                Typical range
               </dt>
               <dd className="mt-1 font-mono text-lg text-foreground">
-                ${siteConfig.offer.headlinePrice.toLocaleString()}
+                {siteConfig.offer.typicalRange}
               </dd>
             </div>
             <div className="rounded-lg border border-border bg-card/60 p-4">
@@ -290,7 +290,7 @@ export function Apply() {
                 </Field>
 
                 <Field
-                  label="Asset type to tokenize"
+                  label="Project type"
                   htmlFor="assetType"
                   error={errors.assetType?.message}
                 >
@@ -300,10 +300,10 @@ export function Apply() {
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger id="assetType">
-                          <SelectValue placeholder="Select asset type" />
+                          <SelectValue placeholder="Select project type" />
                         </SelectTrigger>
                         <SelectContent>
-                          {ASSET_TYPES.map((s) => (
+                          {PROJECT_TYPES.map((s) => (
                             <SelectItem key={s} value={s}>
                               {s}
                             </SelectItem>
@@ -387,7 +387,7 @@ export function Apply() {
                       id="description"
                       rows={5}
                       maxLength={MAX_DESC}
-                      placeholder="What's the asset, what jurisdiction is it sitting in, and what outcome do you care about?"
+                      placeholder="What are you building, what stage are you at, and what outcome matters most?"
                       {...register("description")}
                     />
                   </Field>
@@ -400,7 +400,7 @@ export function Apply() {
 
               <div className="mt-6 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-muted-foreground">
-                  By applying you agree we may follow up by email or WhatsApp. We never share your details.
+                  By submitting you agree I may follow up by email or WhatsApp. Your details are never shared.
                 </p>
                 <Button
                   type="submit"

@@ -65,7 +65,7 @@ export async function GET() {
           />
           <span>{siteConfig.name}</span>
           <span style={{ color: "#9aa0aa", marginLeft: 6, fontWeight: 400 }}>
-            / RWA tokenization studio
+            / Senior developer, end to end
           </span>
         </div>
 
@@ -87,9 +87,9 @@ export async function GET() {
               maxWidth: 1000,
             }}
           >
-            Tokenize your real-world assets.
+            Skip the agency.
             <br />
-            ERC-3643. Mainnet in 8 weeks.
+            Talk directly to a senior developer.
           </div>
           <div
             style={{
@@ -100,7 +100,7 @@ export async function GET() {
               color: "#9aa0aa",
             }}
           >
-            <span>$25B-reference RWA platform shipped</span>
+            <span>7 years shipping production software · ex-STC</span>
             <span style={{ color: "#2a2e36" }}>·</span>
             <span>Dubai</span>
           </div>
@@ -127,7 +127,7 @@ export async function GET() {
                 borderRadius: 999,
               }}
             />
-            From $60K · ERC-3643 · ONCHAINID
+            Full-stack · Blockchain · RWA · From $15K
           </div>
           <div>{siteConfig.url.replace(/^https?:\/\//, "")}</div>
         </div>

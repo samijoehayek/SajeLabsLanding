@@ -62,7 +62,7 @@ export function About() {
             </li>
             <li>
               <a
-                href={mailto("Hello from a founder")}
+                href={mailto("Hi Samijoe — about a project")}
                 aria-label="Email"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-accent/50 hover:text-foreground"
               >
@@ -71,7 +71,7 @@ export function About() {
             </li>
             <li>
               <a
-                href={waLink("Hi Samijoe — interested in working with SajeLabs.")}
+                href={waLink("Hi Samijoe — interested in working with you on a project.")}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"

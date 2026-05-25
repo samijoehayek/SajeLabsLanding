@@ -25,7 +25,7 @@ export function trackLead(data: {
 
   if (typeof window.fbq === "function") {
     const params = {
-      content_category: data.contentCategory ?? "RWA tokenization",
+      content_category: data.contentCategory ?? "Software project",
       ...(data.contentName ? { content_name: data.contentName } : {}),
       value: data.value ?? 0,
       currency: data.currency ?? "USD",

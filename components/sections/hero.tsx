@@ -27,7 +27,7 @@ export function Hero() {
           className="max-w-3xl"
         >
           <MonoPill withDot className="mb-6">
-            <span className="text-foreground/90">Accepting 2 tokenization slots — Q3</span>
+            <span className="text-foreground/90">Available for new projects — booking now</span>
           </MonoPill>
 
           <h1 className="text-display-xl text-balance font-semibold text-foreground">
@@ -92,31 +92,31 @@ export function Hero() {
               <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/30" />
             </div>
             <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-              ~/sajelabs — zsh
+              ~/dev — zsh
             </span>
             <span />
           </div>
           <pre className="overflow-x-auto px-4 py-4 font-mono text-xs leading-relaxed">
             <code>
               <span className="text-accent">$</span>{" "}
-              <span className="text-foreground">sajelabs scope --asset new-tokenization</span>
+              <span className="text-foreground">scope --project new-build</span>
               {"\n"}
-              <span className="text-muted-foreground">→ standard:</span>{" "}
-              <span className="text-foreground">ERC-3643 + ONCHAINID</span>
+              <span className="text-muted-foreground">→ developer:</span>{" "}
+              <span className="text-foreground">1 senior, end to end</span>
               {"\n"}
-              <span className="text-muted-foreground">→ contracts:</span>{" "}
-              <span className="text-foreground">IdentityRegistry, ClaimTopics, Compliance, NAVStore</span>
+              <span className="text-muted-foreground">→ stack:</span>{" "}
+              <span className="text-foreground">TypeScript · Next.js · Node.js · Postgres · Solidity</span>
               {"\n"}
-              <span className="text-muted-foreground">→ portal:</span>{" "}
-              <span className="text-foreground">role-gated · mint · KYC · NAV · documents</span>
+              <span className="text-muted-foreground">→ scope:</span>{" "}
+              <span className="text-foreground">fixed · written · signed before code</span>
               {"\n"}
-              <span className="text-muted-foreground">→ network:</span>{" "}
-              <span className="text-foreground">base sepolia → ethereum mainnet</span>
+              <span className="text-muted-foreground">→ cadence:</span>{" "}
+              <span className="text-foreground">weekly demos on staging</span>
               {"\n"}
               <span className="text-muted-foreground">→ timeline:</span>{" "}
-              <span className="text-accent">8 weeks</span>
+              <span className="text-accent">8–14 weeks</span>
               {"\n"}
-              <span className="text-emerald-500">✓ slot reserved</span>
+              <span className="text-emerald-500">✓ ready to start</span>
             </code>
           </pre>
         </motion.div>

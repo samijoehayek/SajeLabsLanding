@@ -10,19 +10,18 @@ The whole site is driven by two files. You should almost never need to touch Rea
 | Hero ambient detail line | `content/site.ts` | `hero.ambientLine` |
 | Founder name / role / location | `config/site.ts` | `founder.*` |
 | Contact email, WhatsApp, socials | `config/site.ts` | `contact`, `socials` |
+| Calendly URL on /apply | `config/site.ts` | `contact.calendlyUrl` |
 | Tech pills row (hero) | `config/site.ts` | `techPills` |
 | Credibility bar items | `config/site.ts` | `credibilityPills` |
 | Nav links | `config/site.ts` | `nav` |
-| Pricing tiers (3-card layout) | `config/site.ts` | `pricingTiers` |
-| Headline price (apply card) | `config/site.ts` | `offer.headlinePrice` |
-| Retainer price (post-launch) | `config/site.ts` | `offer.retainerFrom` |
+| Headline price reference | `config/site.ts` | `offer.headlinePriceLabel`, `offer.typicalRange` |
+| Delivery range | `config/site.ts` | `offer.duration` |
 | Payment schedule | `config/site.ts` | `offer.paymentSchedule` |
 | Problem section copy | `content/site.ts` | `problem` |
-| Process / 8-week phases | `content/site.ts` | `process` |
+| Process / "How I work" phases | `content/site.ts` | `process` |
 | Case studies | `content/site.ts` | `work.cases[]` |
 | Technical-diff cards | `content/site.ts` | `technical.cards[]` |
 | About / founder bio | `content/site.ts` | `about` |
-| Pricing intro + "What's not included" | `content/site.ts` | `pricing.eyebrow`, `pricing.headline`, `pricing.sub`, `pricing.excluded` |
 | FAQ questions & answers | `content/site.ts` | `faq.items[]` |
 | Apply section copy + success state | `content/site.ts` | `apply` |
 | Footer signoff, status, tagline | `content/site.ts` | `footer` |
@@ -33,43 +32,26 @@ The whole site is driven by two files. You should almost never need to touch Rea
 
 ## Quick recipes
 
-**Edit pricing tiers:**
+**Set your Calendly URL:**
 
-The Pricing section is driven by `siteConfig.pricingTiers` in `config/site.ts`. Each tier is a typed object:
+The `/apply` page embeds Calendly inline. Open `config/site.ts` and replace the placeholder:
 
 ```ts
-{
-  id: "standard",
-  name: "Standard",
-  price: 95000,
-  priceLabel: "$95,000",
-  priceSuffix: "fixed",         // or "starts at"
-  duration: "10-week delivery",
-  description: "Short pitch — one sentence.",
-  mostPopular: true,            // visually flags the card with an accent border + "Most popular" pill
-  features: [
-    "Everything in Foundations, plus:",
-    "NAVStore oracle…",
-    // …
-  ],
-}
+contact: {
+  // ...
+  calendlyUrl: "https://calendly.com/your-handle/diagnostic-call",
+},
 ```
 
-To change pricing:
+The embed (`components/apply/calendly-embed.tsx`) reads this value, listens for Calendly's `event_scheduled` postMessage, and fires the Meta `Lead` event when a slot is booked. UTM parameters from the ad URL are automatically passed through as prefill.
 
-1. Edit the relevant tier object in `siteConfig.pricingTiers`.
-2. Set `mostPopular: true` on at most one tier — the styling assumes a single recommended pick.
-3. Update the apply card "Starting at" amount (`siteConfig.offer.headlinePrice`) if you change the lowest tier's price.
-4. Update the JSON-LD `tokenizationServiceJsonLd.offers` range in `app/layout.tsx` if the price band changes.
-
-**Swap the third case-study placeholder for a real RWA project:**
+**Swap the third case-study placeholder for a real project:**
 
 1. Open `content/site.ts` → `work.cases[2]` (`id: "placeholder-3"`).
 2. Set `status: "real"`.
 3. Replace `name`, `positioning`, `problem`, `approach`, `outcome`, `stack`, `terminal`, and (if applicable) `explorerLabel` / `explorerHref`.
 4. Make sure no `{{REPLACE}}` markers remain in that card.
-5. Remove the `{/* PLACEHOLDER — replace once second RWA client signs */}` comment in `components/sections/work.tsx` once the swap is done.
-6. Run `grep -rn "{{REPLACE" content/` to confirm.
+5. Run `grep -rn "{{REPLACE" content/` to confirm.
 
 **Update the SeedVault card if the client permits public attribution:**
 
@@ -77,31 +59,18 @@ To change pricing:
 2. Replace the anonymized `"Cape Town-based agricultural commodities fund manager"` reference in `problem` with the real client name.
 3. Update `name` and `positioning` to lead with the real brand.
 4. Add `explorerHref` (Etherscan URL) and `explorerLabel: "View on Etherscan"` once the mainnet contract is public.
-5. Remove the `// CLIENT NAME PENDING APPROVAL` comment block above the card object in `content/site.ts`.
 
 **Add a new FAQ item:**
 
 ```ts
 // content/site.ts → faq.items
-{ q: "Do you work with non-GCC asset owners?", a: "Yes — Switzerland and Singapore are our two strongest secondary markets." },
+{ q: "Do you work with US/EU clients?", a: "Yes — Dubai (GMT+4) overlaps with EU mornings and US East Coast end-of-day." },
 ```
 
 **Replace the founder photo:**
 
-1. Drop `founder.jpg` (or `.webp`) into `public/`.
-2. Open `components/sections/about.tsx` and swap the `{{FOUNDER_PHOTO}}` placeholder div for:
-   ```tsx
-   import Image from "next/image";
-   // ...
-   <Image
-     src="/founder.jpg"
-     alt={siteConfig.founder.name}
-     width={256}
-     height={256}
-     className="h-full w-full object-cover"
-     priority
-   />
-   ```
+1. Replace `public/founder/Main.jpg` with your new image (keep the same path or update `components/sections/about.tsx`).
+2. The image is rendered at 256×256 inside a rounded mask; provide at least 512×512 for crispness on retina screens.
 
 **Change the accent color:**
 
@@ -125,4 +94,5 @@ Values are `hue saturation lightness` without the `hsl()` wrapper.
 1. `pnpm build` — must compile clean.
 2. `grep -rn "{{REPLACE" content/ app/ components/` — must return zero matches once placeholders are replaced.
 3. Open the rendered page in dev; any amber "PLACEHOLDER — replace before launch" banner means a case study still needs replacing.
-4. Visit `/api/og` — the generated image should match the new RWA headline.
+4. Visit `/api/og` — the generated image should match the new headline.
+5. Visit `/apply` — Calendly widget should load and show real available slots (not the placeholder URL).

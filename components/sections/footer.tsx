@@ -42,8 +42,8 @@ export function SiteFooter() {
                 </li>
               ))}
               <li>
-                <a href="#apply" className="text-foreground/80 transition-colors hover:text-foreground">
-                  Apply
+                <a href="/apply#book" className="text-foreground/80 transition-colors hover:text-foreground">
+                  Book a call
                 </a>
               </li>
             </ul>
@@ -56,7 +56,7 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href={mailto("Project inquiry — SajeLabs")}
+                  href={mailto("Project inquiry — Samijoe")}
                   className="inline-flex items-center gap-2 text-foreground/80 transition-colors hover:text-foreground"
                 >
                   <Mail className="h-3.5 w-3.5" />
@@ -65,7 +65,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href={waLink("Hi Samijoe — interested in a build slot.")}
+                  href={waLink("Hi Samijoe — I'm interested in working with you on a project.")}
                   className="inline-flex items-center gap-2 text-foreground/80 transition-colors hover:text-foreground"
                   target="_blank"
                   rel="noreferrer"
@@ -115,7 +115,7 @@ export function SiteFooter() {
             © {siteConfig.name} {year} · <span lang="ar">{footer.signoff}</span> · {siteConfig.url.replace(/^https?:\/\//, "")}
           </p>
           <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/70">
-            Built for GCC asset owners shipping regulated digital infrastructure.
+            One senior developer shipping production software, end to end.
           </p>
         </div>
       </div>

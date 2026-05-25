@@ -6,58 +6,43 @@ Run `grep -rn "{{REPLACE" content/ app/ components/` before deploy — it should
 
 ---
 
-## 1. Case study — SeedVault (real, anonymized)
+## 1. Calendly URL (paid-ad landing /apply)
+
+**File**: `config/site.ts` → `contact.calendlyUrl`
+
+- [ ] Currently `"https://calendly.com/YOUR-CALENDLY-HANDLE/diagnostic-call"`. Replace with your real 20-min diagnostic-call Calendly URL. The `/apply` page embeds this inline and fires the Meta `Lead` event when a slot is booked.
+
+---
+
+## 2. Case study — SeedVault (real, anonymized)
 
 **File**: `content/site.ts` → `work.cases[0]` (`id: "seedvault"`)
 
-`status: "real"` — this is a real shipped project, but the **client name is anonymized** pending public-attribution approval.
+`status: "real"` — real shipped project, but the **client name is anonymized** pending public-attribution approval.
 
 - [ ] Confirm public attribution with the client (currently "Cape Town-based agricultural commodities fund manager"). On approval, swap `name`, `positioning`, and `problem` copy to use the real client name.
 - [ ] `explorerHref` is `null` — once the mainnet contract is public, set this to the Etherscan URL and `explorerLabel` to `"View on Etherscan"`.
 
-The terminal block, stack, outcome metrics, and approach copy are all real. No `{{REPLACE}}` markers in this card.
-
 ---
 
-## 2. Case study — BTCBacked (real project, partial metrics)
-
-**File**: `content/site.ts` → `work.cases[1]` (`id: "btcbacked"`)
-
-`status: "real"` — real shipped project. Only the *metrics* are placeholders:
-
-- [ ] `outcome[0]`: `"{{REPLACE_WITH_REAL_METRIC}} in total value locked"` → replace with real TVL figure
-- [ ] `outcome[1]`: `"{{REPLACE_WITH_REAL_METRIC}} loans facilitated"` → replace with real loans count
-- [ ] `outcome[2]`: `"{{REPLACE_WITH_REAL_METRIC}} users onboarded across the GCC"` → replace with real user count
-
-Also review:
-- [ ] `explorerHref` is `null` — if BTCBacked has an on-chain component, add a block explorer / site link.
-
----
-
-## 3. Case study — third slot (placeholder, replace once second RWA client signs)
+## 3. Case study — third slot (placeholder)
 
 **File**: `content/site.ts` → `work.cases[2]` (`id: "placeholder-3"`)
 
-`status: "placeholder"` — currently anonymized as "GCC real estate tokenization pilot — coming soon". Shows an amber "PLACEHOLDER — replace before launch" banner in `NODE_ENV === "development"`.
+`status: "placeholder"` — currently a generic "Your project — next slot". Shows an amber "PLACEHOLDER — replace before launch" banner in `NODE_ENV === "development"`.
 
-Replace or remove all of these once the second RWA client signs and gives attribution:
+Replace all of these once the next shipped project lands:
 
-- [ ] `name` — currently `"GCC real estate tokenization pilot — coming soon"`
+- [ ] `name` — currently `"Your project — next slot"`
 - [ ] `positioning` — generic placeholder copy
 - [ ] `problem` — starts with `{{REPLACE}}`
 - [ ] `approach` — starts with `{{REPLACE}}`
 - [ ] `outcome[0..2]` — all three marked `{{REPLACE}}`
 - [ ] `stack` — verify accuracy with real project
 - [ ] `terminal.command` and `terminal.lines` — regenerate for real project
-- [ ] `explorerHref` — currently `null`; set to a real Etherscan URL once mainnet
+- [ ] `explorerHref` — currently `null`; set to a real URL if applicable
 
-**JSX marker** in `components/sections/work.tsx`:
-```tsx
-{/* PLACEHOLDER — replace once second RWA client signs */}
-{third && <CaseStudyCard data={third} index={2} />}
-```
-
-When replacing, remove the JSX comment and set `status: "real"` in `content/site.ts`.
+When replacing, set `status: "real"` in `content/site.ts`.
 
 ---
 
@@ -65,7 +50,9 @@ When replacing, remove the JSX comment and set `status: "real"` in `content/site
 
 **File**: `components/sections/about.tsx`
 
-- [ ] Currently renders a `{{FOUNDER_PHOTO}}` placeholder inside a gradient circle. Replace per the instructions in `EDITING.md` → "Replace the founder photo".
+- [ ] Currently renders `/founder/Main.jpg`. Replace the file in `public/founder/` if you want a different shot.
+
+For `/apply` page, also confirm `/apply` headshot placeholder (if used) is replaced.
 
 ---
 
@@ -77,11 +64,11 @@ When replacing, remove the JSX comment and set `status: "real"` in `content/site
 
 ---
 
-## 6. "Shipping since" year
+## 6. Intro video (optional, /apply)
 
-**File**: `config/site.ts` → `founder.shippingSince: 2019`
+**File**: `app/apply/page.tsx`
 
-- [ ] Update to your real "shipping since" year if needed. (No longer rendered in the hero, but still used in JSON-LD context.)
+- [ ] If you want to add the 30-45s "real me" intro video, replace the `<video>` placeholder block on the `/apply` page hero. Currently the placeholder shows a static "video coming soon" panel.
 
 ---
 
@@ -89,12 +76,13 @@ When replacing, remove the JSX comment and set `status: "real"` in `content/site
 
 These do not render `{{REPLACE}}` anywhere, but they are expected for a production deploy:
 
-- [ ] `RESEND_API_KEY` — required for the application form to email you
-- [ ] `APPLY_FROM` — must be a Resend-verified sender once your domain is live
-- [ ] `NEXT_PUBLIC_META_PIXEL_ID` — Meta Pixel
-- [ ] `META_CAPI_ACCESS_TOKEN` — Meta Conversions API
+- [ ] `NOTION_API_KEY` — required for the homepage form to persist leads
+- [ ] `NOTION_LEADS_DATABASE_ID` — Notion database that receives leads
+- [ ] `NEXT_PUBLIC_META_PIXEL_ID` — Meta Pixel (PageView + Lead on both `/` and `/apply`)
+- [ ] `META_CAPI_ACCESS_TOKEN` — Meta Conversions API (server-side dedup)
 - [ ] `NEXT_PUBLIC_GA4_ID` — GA4
-- [ ] `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — WalletConnect / RainbowKit
+- [ ] `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` — WalletConnect / RainbowKit (not used on `/apply`)
+- [ ] `META_CAPI_TEST_EVENT_CODE` — **temporary only**. Set to a `TESTxxxxx` code to verify CAPI in Events Manager → Test Events tab, then **remove before production conversions count**.
 
 ---
 
@@ -110,10 +98,13 @@ grep -rn "{{REPLACE" content/ app/ components/   # expect zero matches
 grep -rn "PLACEHOLDER " components/              # expect zero matches in JSX
 grep -rn 'status: "placeholder"' content/        # expect zero matches
 
-# 3. Type-check + build
+# 3. Calendly URL is real
+grep -n "YOUR-CALENDLY-HANDLE" config/site.ts    # expect zero matches
+
+# 4. Type-check + build
 pnpm type-check
 pnpm build
 
-# 4. Lighthouse audit (desktop) — target 95+ on all four
-pnpm dlx @lhci/cli autorun --collect.url=https://your-deploy.vercel.app
+# 5. Open /apply locally — Calendly widget loads with real slots, Meta Lead
+#    test event fires when a slot is booked (use Events Manager → Test Events).
 ```

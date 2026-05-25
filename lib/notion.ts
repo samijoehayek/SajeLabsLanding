@@ -1,23 +1,22 @@
 /**
- * Notion as a durable lead store. Runs alongside Resend (notification) and
- * Meta CAPI (analytics) in the apply route. No-op when env vars are missing —
- * intentionally silent so local dev and preview deploys don't write to prod.
+ * Notion as a durable lead store. Runs alongside Meta CAPI (analytics) in the
+ * apply route. No-op when env vars are missing — intentionally silent so local
+ * dev and preview deploys don't write to prod.
  *
  * Database schema this function targets (case-sensitive on property names):
  *   Name           Title
  *   Email          Email
  *   WhatsApp       Phone number
  *   Company        Text (rich_text)
- *   Asset Type     Text
+ *   Asset Type     Text          (now stores the applicant's PROJECT TYPE —
+ *                                 e.g. "Web application", "Blockchain / Web3".
+ *                                 Column name kept for backward compatibility
+ *                                 with the existing Notion DB.)
  *   Stage          Status        (auto-set to "New"; user moves through workflow)
  *   Project Stage  Text          (the applicant's stated project stage)
  *   Timeline       Text
  *   Budget         Text          (form sends range strings)
  *   Description    Text
- *
- * Asset Value and Jurisdiction columns may still exist on the Notion side from
- * earlier versions of the form — they're not written anymore and will be empty
- * for all new leads. Safe to delete in Notion's UI if no longer wanted.
  */
 
 const NOTION_API_VERSION = "2022-06-28";

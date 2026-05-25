@@ -9,17 +9,15 @@ export function Work() {
     <Section id="work" bordered>
       <div className="max-w-3xl">
         <SectionEyebrow>{work.eyebrow}</SectionEyebrow>
-        <SectionTitle>Shipped tokenization, not decks.</SectionTitle>
+        <SectionTitle>Shipped projects, not pitch decks.</SectionTitle>
         <SectionLede>{work.lede}</SectionLede>
       </div>
 
       <div className="mt-14 grid gap-6 lg:grid-cols-2">
-        {/* Flagship — SeedVault, $25B-reference RWA platform.
-            CLIENT NAME PENDING APPROVAL — currently anonymized as
-            "Cape Town-based agricultural commodities fund". */}
+        {/* Flagship — SeedVault RWA tokenization (anonymized client). */}
         {seedvault && <CaseStudyCard data={seedvault} featured index={0} />}
         {btcbacked && <CaseStudyCard data={btcbacked} index={1} />}
-        {/* PLACEHOLDER — replace once second RWA client signs */}
+        {/* PLACEHOLDER — replace with next shipped project. */}
         {third && <CaseStudyCard data={third} index={2} />}
       </div>
     </Section>

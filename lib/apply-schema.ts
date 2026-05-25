@@ -1,45 +1,48 @@
 import { z } from "zod";
 import { COUNTRY_CODE_VALUES } from "./country-codes";
 
-// Lightweight qualification fields. The budget bracket pre-qualifies leads —
-// a $5M asset owner shouldn't be entering a $60K tokenization conversation.
+// Lightweight qualification fields. The budget bracket pre-qualifies leads so
+// a $5K side-project doesn't enter a $40K conversation, and vice versa.
 // Keep these in sync with components/sections/apply.tsx.
 
-export const ASSET_TYPES = [
-  "Real estate",
-  "Private credit",
-  "Commodities",
-  "Fund",
+export const PROJECT_TYPES = [
+  "Web application",
+  "Full-stack platform",
+  "Blockchain / Web3",
+  "RWA tokenization",
+  "MVP / Prototype",
+  "Feature in an existing codebase",
   "Other",
-  "Not RWA — general blockchain dev",
 ] as const;
 
 export const STAGES = [
-  "Concept",
-  "Legal structuring",
+  "Idea / Concept",
+  "Design or spec ready",
   "Ready to build",
   "Already engaged another firm",
 ] as const;
 
 export const BUDGETS = [
-  "$60K-$95K",
-  "$95K-$150K",
-  "$150K+",
-  "Not RWA — different budget",
+  "$15K–$30K",
+  "$30K–$60K",
+  "$60K+",
+  "Not sure yet",
 ] as const;
 
-export const TIMELINES = ["ASAP", "1 month", "2-3 months", "Flexible"] as const;
+export const TIMELINES = ["ASAP", "1 month", "2–3 months", "Flexible"] as const;
 
-// Shared fields used by both the form and the API.
+// Shared fields used by both the form and the API. The internal field name
+// stays `assetType` so the existing Notion column ("Asset Type") and API
+// route don't need a rename — only the enum values change.
 const baseFields = {
   name: z.string().trim().min(2, "Please enter your full name").max(120),
   email: z.string().trim().email("Enter a valid email"),
   company: z.string().trim().max(160).optional().or(z.literal("")),
-  assetType: z.enum(ASSET_TYPES),
+  assetType: z.enum(PROJECT_TYPES),
   stage: z.enum(STAGES),
   timeline: z.enum(TIMELINES),
   budget: z.enum(BUDGETS),
-  description: z.string().trim().min(20, "Tell us a bit more").max(500),
+  description: z.string().trim().min(20, "Tell me a bit more").max(500),
   // honeypot — must be empty
   website: z.string().max(0).optional().or(z.literal("")),
 };

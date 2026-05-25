@@ -4,90 +4,89 @@
 // -----------------------------------------------------------------------------
 
 export const hero = {
-  // Pick the strongest. Commented alternatives are kept for quick A/B swap.
   headline:
-    "Tokenize your real-world assets. ERC-3643 compliant. Production-ready in 8 weeks.",
-  // headline: "From physical asset to mainnet token in 8 weeks.",
-  // headline: "ERC-3643 tokenization. Ship-ready in 8 weeks. From $60K.",
-  // headline: "We deploy the ERC-3643 stack the world's largest RWA deals are built on.",
+    "Skip the agency. Talk directly to a senior developer who ships.",
+  // headline: "Your project, built end-to-end by one senior developer.",
+  // headline: "No account managers. No junior devs. Just one senior, shipping.",
 
   subheadline:
-    "Smart contracts, KYC infrastructure, admin portal, and mainnet deployment — built by engineers who've shipped a $25B-reference RWA platform on Ethereum. Based in Dubai.",
-  primaryCta: { label: "Apply for a tokenization slot", href: "#apply" },
+    "I build web apps, full-stack platforms, blockchain systems, and RWA tokenization — directly with founders and businesses. 7 years shipping production software at top MENA tech companies including STC. One developer, one budget, no surprises.",
+  primaryCta: { label: "Book a free 20-min call", href: "/apply#book" },
   secondaryCta: { label: "See the work", href: "#work" },
-  ambientLine: "// erc-3643 · onchainid · nav oracle · ipfs proofs",
+  ambientLine: "// typescript · next.js · solidity · aws · postgres",
 } as const;
 
 export const problem = {
-  eyebrow: "Why most tokenization projects never ship",
+  eyebrow: "Why most software projects ship late, over budget, or never ship",
   opener:
-    "You've seen the pattern. A regulated asset owner hires a Web3 agency, the project disappears into testnet purgatory, and a year later there's still no admin portal, no compliant transfers, and no path to mainnet. The reasons are predictable.",
+    "You've been here before. You take a software idea to an agency, the senior pitches the deal, the juniors build it, the timeline doubles, the scope creeps, and the invoice triples. There's a faster, cheaper way that doesn't sacrifice quality — and it doesn't involve agencies.",
   patterns: [
     {
-      title: "You hire a Web3 agency that's never deployed ERC-3643.",
+      title: "Agencies quote 3–4× what a senior dev actually costs.",
       body:
-        "Most \"blockchain devs\" build NFT mints. Tokenizing real, regulated, valuable assets requires identity infrastructure, claim topic management, and trusted issuer registries — not a contract written in a weekend.",
+        "Most of that markup pays for project managers, account managers, sales overhead, and bench time. None of it touches your code. Working direct with the senior cuts the chain in half.",
     },
     {
-      title: "Your legal team blocks the project at compliance review.",
+      title: "The senior who pitched you isn't the one writing your code.",
       body:
-        "KYC, accredited investor restrictions, jurisdictional rules, and trusted issuer permissions need to be enforceable on-chain — not bolted on later. Get the architecture wrong and the project never leaves testnet.",
+        "Agencies sell with a senior architect, then assign juniors to the build. By the time you notice the architecture drift, the budget is gone. One senior end-to-end means no handoff, no quality drop.",
     },
     {
-      title: "Eight months in, you still don't have an admin portal your team can actually use.",
+      title: "3-month quotes turn into 9-month deliveries.",
       body:
-        "Smart contracts without a clean operator UI mean every mint, KYC update, and document upload becomes an engineering ticket. We ship the portal with the contracts.",
+        "Scope creep, juniors learning on your dime, layered review processes — they all compound. A focused senior dev with a fixed scope ships in weeks, not quarters.",
     },
   ],
 } as const;
 
 export const process = {
-  eyebrow: "How we ship in 8 weeks",
+  eyebrow: "How I work — end to end",
   lede:
-    "A fixed cadence. Four two-week phases. Demo every Friday. Mainnet in week eight, not month eight.",
+    "Direct collaboration. Fixed scope. Weekly demos. No account managers between you and the code.",
   phases: [
     {
-      week: "Weeks 1–2",
-      title: "Discovery",
+      week: "Week 0",
+      title: "Free diagnostic call",
       summary:
-        "Asset model, valuation source, jurisdiction, and the role matrix that will run the chain.",
+        "20-minute call. Real cost range, realistic timeline, red flags to watch for, honest feasibility feedback.",
       deliverables: [
-        "Asset model + valuation source review",
-        "Jurisdiction, claim topics, trusted issuers",
-        "Role matrix + network selection (Ethereum, Base, Arbitrum)",
+        "Cost range based on similar projects shipped",
+        "Realistic delivery timeline",
+        "Red flags to spot in any agency or developer pitch",
+        "Honest \"is this feasible at your budget\" answer",
       ],
     },
     {
-      week: "Weeks 3–4",
-      title: "Architecture",
+      week: "Week 1",
+      title: "Scope & contract",
       summary:
-        "The full ERC-3643 contract suite drafted, with NAV oracle and document registry wired in.",
+        "Written scope, fixed price, milestone schedule. Both of us sign before any code is written.",
       deliverables: [
-        "ERC-3643 token + IdentityRegistry + ClaimTopicsRegistry",
-        "TrustedIssuersRegistry + Compliance rule engine",
-        "NAVStore + DocumentsRegistry + ONCHAINIDFactory",
+        "One-page written scope of work",
+        "Fixed price, 3-milestone payment plan",
+        "Stack and architecture choices you own",
       ],
     },
     {
-      week: "Weeks 5–6",
+      week: "Weeks 2–8",
       title: "Build",
       summary:
-        "Feature-complete on testnet. Foundry-tested contracts. Operator portal your team can actually use.",
+        "Senior-level execution. Weekly demos. You see real progress, not slide decks.",
       deliverables: [
-        "Foundry test suite (90%+ coverage, invariant harness)",
-        "Role-gated admin portal — mint/burn, KYC, claims, documents, NAV",
-        "IPFS / Arweave integration for compliant document storage",
+        "Weekly Friday demos on staging",
+        "Clean code, standard stacks (TypeScript, Next.js, Node.js, Postgres, Solidity)",
+        "All commits pushed to a repo you own",
       ],
     },
     {
-      week: "Weeks 7–8",
+      week: "Delivery",
       title: "Ship",
       summary:
-        "UAT on Base Sepolia, mainnet deployment, Etherscan verification, runbooks, handover.",
+        "Production deployment, documentation, handover. Code stays yours; nothing locked behind me.",
       deliverables: [
-        "Base Sepolia UAT + full acceptance test matrix",
-        "Mainnet deployment + Etherscan verification",
-        "Runbooks, role-handover documentation, 30-day support",
+        "Production deployment with monitoring",
+        "Written docs and runbooks",
+        "30-day post-launch defect warranty",
       ],
     },
   ],
@@ -95,60 +94,60 @@ export const process = {
 
 export const work = {
   eyebrow: "Selected work",
-  lede: "Regulated, non-custodial, production. Not prototypes.",
+  lede:
+    "Real shipped projects across blockchain, full-stack, and RWA. Not prototypes, not demos.",
   cases: [
-    // CLIENT NAME PENDING APPROVAL — currently anonymized as
-    // "Cape Town-based agricultural commodities fund manager"
+    // SeedVault — flagship RWA project, client name anonymized pending
+    // public-attribution approval.
     {
       id: "seedvault",
       status: "real" as const,
-      name: "SeedVault — $25B-reference RWA tokenization platform",
-      positioning: "Full ERC-3643 stack for an insured, appraised physical inventory.",
+      name: "SeedVault — RWA tokenization platform",
+      positioning: "Full ERC-3643 tokenization stack for an insured, appraised physical inventory.",
       problem:
-        "The fund held a unique, insured physical inventory worth tens of billions in reference value with no path to fractional ownership, secondary liquidity, or compliant investor onboarding. Client (anonymized): Cape Town-based agricultural commodities fund manager. Asset: insured, appraised physical inventory — Cannabis sativa L. landrace seed reserves.",
+        "The fund held a unique physical inventory worth tens of billions in reference value with no path to fractional ownership, secondary liquidity, or compliant investor onboarding. Client (anonymized): Cape Town-based agricultural commodities fund manager.",
       approach:
-        "Full ERC-3643 stack on Ethereum: security token, IdentityRegistry, ClaimTopicsRegistry, TrustedIssuersRegistry, Compliance engine, ONCHAINID factory, NAVStore oracle, IPFS-backed DocumentsRegistry, and a role-gated admin portal.",
+        "Full ERC-3643 stack on Ethereum: security token, IdentityRegistry, ClaimTopicsRegistry, TrustedIssuersRegistry, Compliance engine, ONCHAINID factory, NAVStore oracle, IPFS-backed DocumentsRegistry, and a role-gated admin portal — shipped end-to-end by one developer.",
       outcome: [
-        "~2,500 seeds per token, 8-decimal divisibility",
         "10M tokens issued at $25B reference value",
         "Base Sepolia → Ethereum Mainnet delivery",
-        "Role matrix: Admin, Issuer, Registry Agent, Policy Admin, Docs Admin, Oracle, Factory Operator",
+        "Full admin portal handed over and operational",
       ],
       stack: [
-        "ERC-3643 v2.x",
-        "Solidity 0.8.x",
+        "ERC-3643",
+        "Solidity",
         "ONCHAINID",
         "Foundry",
         "Next.js",
         "viem",
         "IPFS",
-        "Base Sepolia → Ethereum Mainnet",
+        "Ethereum Mainnet",
       ],
       terminal: {
-        command: "sajelabs deploy --asset seedvault --network mainnet",
+        command: "deploy --asset seedvault --network mainnet",
         lines: [
           "✓ erc-3643 verified",
           "✓ onchainid factory live",
           "✓ admin portal handed over",
         ],
       },
-      link: { label: "View case", href: "#apply" },
+      link: { label: "View case", href: "/apply#book" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },
     {
       id: "btcbacked",
       status: "real" as const,
-      name: "BTCBacked — Swiss-grade Bitcoin-backed lending",
+      name: "BTCBacked — Bitcoin-backed lending platform",
       positioning: "Bitcoin-native, non-custodial financial infrastructure.",
       problem:
-        "GCC Bitcoin holders had no regulated, non-custodial way to access liquidity against their BTC. Every option forced custody, wrapped BTC, or an unregulated desk.",
+        "GCC Bitcoin holders had no regulated, non-custodial way to access liquidity against their BTC. Every alternative forced custody, wrapped BTC, or an unregulated desk.",
       approach:
-        "Built a peer-to-peer marketplace with non-custodial Bitcoin collateralization, Swiss-grade compliance architecture, and production-ready infra. Real BTC, not wrapped — same DNA as the RWA stack: regulated, non-speculative, ship-on-time.",
+        "Peer-to-peer marketplace with non-custodial Bitcoin collateralization, Swiss-grade compliance architecture, and production-ready full-stack infra. Real BTC, not wrapped. Shipped solo from architecture to production.",
       outcome: [
-        "{{REPLACE_WITH_REAL_METRIC}} in total value locked",
-        "{{REPLACE_WITH_REAL_METRIC}} loans facilitated",
-        "{{REPLACE_WITH_REAL_METRIC}} users onboarded across the GCC",
+        "Non-custodial Bitcoin collateral live in production",
+        "Full-stack platform: API, Postgres, on-chain logic",
+        "Audit-ready architecture",
       ],
       stack: [
         "Bitcoin",
@@ -159,7 +158,7 @@ export const work = {
         "Non-custodial architecture",
       ],
       terminal: {
-        command: "sajelabs inspect --project btcbacked",
+        command: "inspect --project btcbacked",
         lines: [
           "✓ non-custodial",
           "✓ audit-ready",
@@ -167,40 +166,41 @@ export const work = {
           "✓ real BTC — no wrapping",
         ],
       },
-      link: { label: "View case", href: "#apply" },
+      link: { label: "View case", href: "/apply#book" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },
-    // PLACEHOLDER — replace once second RWA client signs
+    // Placeholder slot for next case study — could be a SaaS, full-stack, or
+    // blockchain project. Replace before launch.
     {
       id: "placeholder-3",
       status: "placeholder" as const,
-      name: "GCC real estate tokenization pilot — coming soon",
-      positioning: "VARA-aware tokenization for a Dubai-based real estate issuer.",
+      name: "Your project — next slot",
+      positioning: "Web app, full-stack platform, or blockchain build — solo execution.",
       problem:
-        "{{REPLACE}} A regulated UAE real estate developer is preparing to tokenize a flagship asset under the VARA framework with full investor allowlisting and on-chain compliance.",
+        "{{REPLACE}} Brief project context. Could be a SaaS MVP, an internal full-stack platform, or a blockchain integration.",
       approach:
-        "{{REPLACE}} Designed around the same ERC-3643 stack we shipped for SeedVault, with jurisdictional allowlists, accredited-investor claim topics, and a custodian-integrated investor onboarding flow.",
+        "{{REPLACE}} Architecture decisions, stack picks, and the senior-led build cadence we delivered together.",
       outcome: [
-        "{{REPLACE}} In progress",
-        "{{REPLACE}} Mainnet target — Q4",
-        "{{REPLACE}} VARA-aware architecture",
+        "{{REPLACE}} Headline metric",
+        "{{REPLACE}} Delivery milestone",
+        "{{REPLACE}} Post-launch state",
       ],
       stack: [
-        "ERC-3643",
-        "ONCHAINID",
-        "Foundry",
+        "TypeScript",
         "Next.js",
-        "VARA-aware compliance",
+        "Node.js",
+        "PostgreSQL",
+        "AWS",
       ],
       terminal: {
-        command: "sajelabs status --project gcc-realestate",
+        command: "status --project next-slot",
         lines: [
           "→ in progress",
           "→ replace with real output",
         ],
       },
-      link: { label: "View case", href: "#apply" },
+      link: { label: "View case", href: "/apply#book" },
       explorerLabel: null as string | null,
       explorerHref: null as string | null,
     },
@@ -208,84 +208,55 @@ export const work = {
 } as const;
 
 export const technical = {
-  eyebrow: "What actually ships with us",
+  eyebrow: "What you actually get",
   lede:
-    "The specific promises behind the price. Every item below is a line in the SOW.",
+    "What working directly with a senior developer looks like, line by line.",
   cards: [
     {
       icon: "ShieldCheck",
-      title: "ERC-3643 native",
+      title: "One senior, end to end",
       body:
-        "The global standard for security tokens. Same standard used by Mantra, MultiBank, and the largest RWA deals globally.",
+        "The developer pitching you is the developer writing your code. No handoff to juniors. No quality drop after the sales call.",
     },
     {
       icon: "Scale",
-      title: "ONCHAINID + KYC built in",
+      title: "Fixed scope, fixed budget",
       body:
-        "Investor identity, claim topics, trusted issuer registries. Compliance lives on-chain, not in a spreadsheet.",
+        "Written scope before any code is written. Milestone-based payments. Scope changes are discussed — never silently billed.",
     },
     {
       icon: "Factory",
-      title: "Admin portal you'll actually use",
+      title: "Standard stacks, no vendor lock-in",
       body:
-        "Role-gated dashboard for mint/burn, KYC, document uploads, NAV updates. Operations team-ready, not just dev-team-ready.",
+        "TypeScript, Next.js, Node.js, Postgres, Solidity, AWS. Code you can hand to any future team without translation.",
     },
     {
       icon: "Gauge",
-      title: "Audit-ready from day one",
+      title: "Weekly demos, real progress",
       body:
-        "Foundry test suite, OpenZeppelin patterns, contract verification on Etherscan, light-audit-friendly structure.",
+        "Every Friday on staging. You see what shipped that week. No surprise reveal at delivery — by the time we launch, you've used it for weeks.",
     },
     {
       icon: "CalendarClock",
-      title: "Testnet → Mainnet in 8 weeks",
+      title: "8–14 weeks, not 9 months",
       body:
-        "Fixed scope. Fixed price. Fixed timeline. No open-ended retainers, no surprise invoices.",
+        "Senior execution + fixed scope = predictable delivery. Most projects ship in a single quarter.",
     },
     {
       icon: "KeyRound",
-      title: "You keep 100% of the code",
+      title: "You own everything",
       body:
-        "Source code, ABIs, deployment scripts, runbooks. Nothing locked behind us post-handover.",
+        "Repo access from day one. Source, infra, deployment scripts, runbooks. Nothing locked behind me post-handover.",
     },
   ],
 } as const;
 
 export const about = {
-  eyebrow: "Founder",
-  headline: "Built by an engineer who deploys, not a salesperson who pitches.",
+  eyebrow: "About",
+  headline: "Built by a senior who codes, not a salesperson who pitches.",
   paragraphs: [
-    "Samijoe Hayek is a senior blockchain engineer based in Dubai. He's the founder of SajeLabs, a boutique studio specializing in production-grade RWA tokenization on Ethereum and non-custodial Bitcoin infrastructure. He recently shipped a $25B-reference ERC-3643 platform end-to-end — smart contracts, identity infrastructure, NAV oracle, admin portal — for a Cape Town-based agricultural commodities fund.",
-    "SajeLabs works with GCC asset owners, family offices, and Web3 founders who need regulated, audit-ready, ship-on-time infrastructure. We build for production, not for demos.",
-  ],
-} as const;
-
-export const pricing = {
-  eyebrow: "What a tokenization costs",
-  headline: "Three tiers. Fixed scope. Fixed timeline.",
-  sub:
-    "One asset, one engineering team, one signed SOW. Paid in three milestones. No hourly creep, no surprise invoices.",
-  // Per-tier feature lists live in config/site.ts → siteConfig.pricingTiers.
-  excludedTitle: "What's not included",
-  excluded: [
-    {
-      title: "Third-party security audits",
-      body:
-        "We prep for audit; the audit firm bills separately — typical $15-50K. We'll recommend and introduce (OpenZeppelin, Trail of Bits, Spearbit, etc.).",
-    },
-    {
-      title: "Legal, regulatory, and tax advice",
-      body:
-        "Not our lane. We recommend specialist law firms in DIFC, ADGM, and Switzerland and work alongside your counsel on architecture decisions.",
-    },
-    {
-      title: "Custodian, KYC provider, or RPC fees",
-      body: "Pass-through. We integrate Cobo, Fireblocks, Sumsub, Onfido — you hold the contracts.",
-    },
-    {
-      title: "Ongoing development beyond the 30-day warranty",
-      body: "Separate retainer from $8,000/month. Fixed scope per sprint, same cadence as the build.",
-    },
+    "I'm Samijoe Hayek, a senior full-stack and blockchain developer based in Dubai. I've spent 7 years building production software — web applications, full-stack platforms, blockchain systems, and RWA tokenization — at top MENA tech companies including STC.",
+    "I now work directly with founders, established businesses, and funded startups who want senior-level delivery without agency overhead. One developer, one budget, one point of accountability. If your project is too small for an agency or too senior for a junior, we should talk.",
   ],
 } as const;
 
@@ -293,32 +264,28 @@ export const faq = {
   eyebrow: "FAQ",
   items: [
     {
-      q: "What is ERC-3643 and why does it matter?",
-      a: "ERC-3643 is the global standard for permissioned security tokens — the same standard powering the largest RWA deals (Mantra, MultiBank, institutional tokenization platforms). Using ERC-3643 means your tokenization is compatible with the future of regulated digital asset infrastructure rather than a one-off contract that ages out.",
+      q: "What kinds of projects do you take on?",
+      a: "Web apps, full-stack platforms, blockchain projects (DeFi, RWA tokenization, Web3 integrations), MVPs for startups, and feature builds inside existing codebases. If you're not sure your project fits, book the free call and we'll figure it out together.",
     },
     {
-      q: "Do you handle VARA / DIFC / ADGM compliance?",
-      a: "We build VARA-aware, ADGM-friendly, DIFC-compatible architecture. We do not provide legal advice — we work alongside your legal counsel and recommend specialist law firms in the GCC and Switzerland.",
+      q: "What's your typical price range?",
+      a: "Most projects fall between $15K and $60K depending on scope. You'll get a real number on the call after we go through your requirements — not a number pulled from an agency markup spreadsheet.",
     },
     {
-      q: "What asset types can be tokenized?",
-      a: "Real estate, private credit, commodities, funds, fine art, agricultural inventory, royalties. Anything insured, appraised, and legally defensible. We've shipped a system for $25B-reference physical inventory; the architecture generalizes.",
+      q: "Are you really one person? What if you get hit by a bus?",
+      a: "Yes, I'm one person — that's the whole point. I work with a small trusted network of senior devs I can bring in for specific tasks if needed, but the architecture, core logic, and accountability stay with me. I document everything as I build, so the code is always handover-ready.",
+    },
+    {
+      q: "How do you handle contracts and payments?",
+      a: "Milestone-based contract. Typically 30% on signing, 30% at mid-build, 40% on delivery. Written scope before we start; we both sign off. No hourly creep, no surprise invoices.",
+    },
+    {
+      q: "What happens after the free call?",
+      a: "If we're a fit, you'll get a written proposal within 48 hours with scope, timeline, and price. No pressure to decide on the call. If we're not a fit, I'll often refer you to someone who is.",
     },
     {
       q: "Who owns the code and IP?",
-      a: "You do, on full payment. Source code, ABIs, deployment scripts, documentation, runbooks. We retain rights to our pre-existing internal libraries and tooling, granted to you under perpetual royalty-free license as incorporated.",
-    },
-    {
-      q: "What's the payment schedule?",
-      a: "50% on signing, 25% on UAT acceptance, 25% on mainnet deployment. Net 7. Fixed price — no surprises.",
-    },
-    {
-      q: "What if you miss the 8-week deadline?",
-      a: "We work without additional fees until delivery. Our SOW includes specific acceptance test matrices on both contracts and admin UI; you don't pay milestones until those tests pass.",
-    },
-    {
-      q: "Can you tokenize on chains other than Ethereum?",
-      a: "Yes. We default to Ethereum mainnet or Base for production because the ERC-3643 ecosystem is most mature there, but we deploy on Arbitrum, Polygon, or other EVM chains based on your compliance and gas-cost needs. Non-EVM chains are case-by-case.",
+      a: "You do, on full payment. Source code, infra, deployment scripts, documentation, runbooks. I retain rights to my own pre-existing internal libraries, granted to you under perpetual royalty-free license as incorporated.",
     },
     {
       q: "Do you sign NDAs?",
@@ -328,27 +295,23 @@ export const faq = {
       q: "What's the timezone?",
       a: "Dubai (GMT+4). Full GCC working-hours overlap. European clients get morning overlap; US East Coast clients get end-of-day overlap.",
     },
-    {
-      q: "How do we get started?",
-      a: "Submit the application form below. We review every application within 48 hours. If we're a fit, we book a 30-minute call to scope your asset, jurisdiction, and timeline.",
-    },
   ],
 } as const;
 
 export const apply = {
-  eyebrow: "Apply",
-  headline: "Tokenizing an asset? Tell us about it.",
+  eyebrow: "Get in touch",
+  headline: "Have a project? Tell me about it.",
   body:
-    "We review every application within 48 hours. If we're a fit, we'll book a 30-minute call to scope your asset, jurisdiction, and timeline. If we're not, we'll tell you straight and introduce someone who is.",
-  successHeadline: "Application received.",
+    "I reply within 48 hours. If it's a fit, we'll book a free 20-minute call to scope your project. If it's not, I'll tell you straight and often refer you to someone who is.",
+  successHeadline: "Got it — talk soon.",
   successBody:
-    "We'll be in touch within 48 hours. Check your WhatsApp — that's usually where we reply first.",
+    "I'll be in touch within 48 hours. Check your WhatsApp — that's usually where I reply first.",
 } as const;
 
 export const footer = {
   signoff: "صُنع في دبي",
-  status: "All systems operational",
-  tagline: "Production RWA tokenization · Dubai",
+  status: "Available for new projects",
+  tagline: "One senior developer · Dubai",
 } as const;
 
 export type HeroContent = typeof hero;

@@ -27,20 +27,22 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
+    "senior full-stack developer",
+    "freelance senior developer Dubai",
+    "blockchain developer Dubai",
+    "hire senior developer",
+    "skip the agency",
+    "Next.js developer",
+    "TypeScript engineer",
+    "Solidity developer",
+    "Ethereum developer",
+    "Bitcoin developer",
     "RWA tokenization",
     "ERC-3643",
-    "tokenize real estate Dubai",
-    "security token issuance",
-    "asset tokenization GCC",
-    "ONCHAINID",
-    "VARA tokenization",
-    "tokenized real-world assets",
-    "private credit tokenization",
-    "Ethereum security token",
-    "Bitcoin development",
-    "Dubai Web3",
-    "Solidity engineer Dubai",
+    "MENA software developer",
+    "ex-STC developer",
     "SajeLabs",
+    "Samijoe Hayek",
   ],
   authors: [{ name: siteConfig.founder.name, url: siteConfig.socials.github }],
   creator: siteConfig.founder.name,
@@ -102,39 +104,38 @@ const organizationJsonLd = {
   makesOffer: [
     {
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: "RWA Tokenization" },
+      itemOffered: { "@type": "Service", name: "Web Application Development" },
     },
     {
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: "ERC-3643 Implementation" },
+      itemOffered: { "@type": "Service", name: "Full-Stack Software Development" },
     },
     {
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: "Smart Contract Development" },
+      itemOffered: { "@type": "Service", name: "Blockchain & Web3 Development" },
     },
     {
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: "Web3 Full-Stack Development" },
+      itemOffered: { "@type": "Service", name: "RWA Tokenization (ERC-3643)" },
     },
   ],
 };
 
-const tokenizationServiceJsonLd = {
+const softwareServiceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "RWA Tokenization on Ethereum (ERC-3643)",
-  serviceType: "Real-world asset tokenization",
+  name: "Senior Full-Stack & Blockchain Software Development",
+  serviceType: "Software development services",
   description:
-    "Production-grade ERC-3643 tokenization platforms for asset owners and family offices: smart contracts, KYC infrastructure, NAV oracle, document registry, and a role-gated admin portal. Testnet to mainnet in 8 weeks.",
+    "Senior full-stack and blockchain developer with 7 years building production software at top MENA tech companies including STC. Web applications, full-stack platforms, blockchain systems, RWA tokenization, and Web3 infrastructure — shipped end-to-end by one developer.",
   provider: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
-  areaServed: ["AE", "SA", "QA", "BH", "OM", "KW", "CH", "SG"],
+  areaServed: ["AE", "SA", "QA", "BH", "OM", "KW", "CH", "SG", "US", "GB", "EU"],
   offers: {
     "@type": "AggregateOffer",
     priceCurrency: "USD",
-    lowPrice: 60000,
-    highPrice: 150000,
-    priceRange: "$60,000-$150,000+",
-    offerCount: siteConfig.pricingTiers.length,
+    lowPrice: 15000,
+    highPrice: 60000,
+    priceRange: "$15,000-$60,000+",
   },
 };
 
@@ -158,7 +159,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(tokenizationServiceJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareServiceJsonLd) }}
         />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
