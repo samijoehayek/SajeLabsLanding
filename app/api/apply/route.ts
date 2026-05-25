@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { applySchema } from "@/lib/apply-schema";
-import { sendMetaEvent } from "@/lib/meta-capi";
+import { sendMetaEvent, buildFbcFromUrl } from "@/lib/meta-capi";
 import { appendLead } from "@/lib/notion";
 import { siteConfig } from "@/config/site";
 
@@ -71,7 +71,13 @@ export async function POST(req: NextRequest) {
   const ua = req.headers.get("user-agent") ?? undefined;
   // First-party Pixel cookies are same-origin so they ride along on the POST.
   const fbp = req.cookies.get("_fbp")?.value;
-  const fbc = req.cookies.get("_fbc")?.value;
+  // Prefer fbc built from the raw URL fbclid (Meta's "parameter builder"
+  // approach) so Events Manager doesn't flag a modified/truncated fbclid in
+  // the cookie. Falls back to the _fbc cookie when the submission referer
+  // has no fbclid (visitor landed earlier, navigated, then submitted).
+  const fbc =
+    buildFbcFromUrl(req.headers.get("referer")) ??
+    req.cookies.get("_fbc")?.value;
 
   await sendMetaEvent({
     eventName: "Lead",

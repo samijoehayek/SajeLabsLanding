@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendMetaEvent } from "@/lib/meta-capi";
+import { sendMetaEvent, buildFbcFromUrl } from "@/lib/meta-capi";
 import { siteConfig } from "@/config/site";
 
 export const runtime = "nodejs";
@@ -32,15 +32,20 @@ export async function POST(req: NextRequest) {
     req.headers.get("x-real-ip") ??
     undefined;
   const ua = req.headers.get("user-agent") ?? undefined;
+  const referer = req.headers.get("referer");
   const fbp = req.cookies.get("_fbp")?.value;
-  const fbc = req.cookies.get("_fbc")?.value;
+  // Prefer fbc built from the raw URL fbclid (canonical, Meta-recommended).
+  // Fall back to the _fbc cookie only when the URL has no fbclid — that
+  // catches the case where the user landed via an ad earlier and the cookie
+  // is the only surviving signal.
+  const fbc = buildFbcFromUrl(referer) ?? req.cookies.get("_fbc")?.value;
 
   // eslint-disable-next-line no-console
   console.log("[pageview route] eventId:", eventId);
 
   await sendMetaEvent({
     eventName: "PageView",
-    eventSourceUrl: req.headers.get("referer") ?? `${siteConfig.url}/`,
+    eventSourceUrl: referer ?? `${siteConfig.url}/`,
     clientIp: ip,
     userAgent: ua,
     eventId,

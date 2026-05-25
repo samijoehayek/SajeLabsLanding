@@ -4,6 +4,33 @@ const hash = (v: string) =>
   crypto.createHash("sha256").update(v.trim().toLowerCase()).digest("hex");
 
 /**
+ * Build the `fbc` parameter from a URL's raw `fbclid` query param. Meta's
+ * "parameter builder" approach — it bypasses the Pixel-set `_fbc` cookie,
+ * which can carry a truncated/lowercased/race-conditioned fbclid that Events
+ * Manager flags as "modified fbclid value in the fbc parameter".
+ *
+ * Format per Meta docs: fb.<subdomain_idx>.<creation_time_ms>.<fbclid>
+ *   subdomain_idx: 1 = cookie set on the root domain (e.g. example.com)
+ *
+ * Callers should prefer this over the `_fbc` cookie when an `fbclid` is
+ * available in the URL — the raw URL fbclid is authoritative; the cookie is
+ * downstream and lossy.
+ */
+export function buildFbcFromUrl(
+  url: string | null | undefined,
+): string | undefined {
+  if (!url) return undefined;
+  try {
+    const u = new URL(url);
+    const fbclid = u.searchParams.get("fbclid");
+    if (!fbclid) return undefined;
+    return `fb.1.${Date.now()}.${fbclid}`;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * Fire a Meta Conversions API event server-side. No-op when env vars
  * are missing — intentionally silent so local dev and preview deploys don't
  * hit Meta by accident.
